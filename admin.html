@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cake Delights - Admin Panel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .order-card {
+            transition: all 0.3s ease;
+        }
+        .order-card:hover {
+            transform: translateY(-2px);
+        }
+        .mobile-menu {
+            display: none;
+        }
+        @media (max-width: 768px) {
+            .mobile-menu {
+                display: block;
+            }
+            .desktop-menu {
+                display: none;
+            }
+            .mobile-menu.active {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Navigation -->
+    <nav class="bg-pink-600 text-white p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold">Cake Delights</h1>
+            <!-- Mobile Menu Button -->
+            <button id="mobileMenuBtn" class="mobile-menu md:hidden">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+            <!-- Desktop Menu -->
+            <div class="desktop-menu space-x-4">
+                <a href="index.html" class="hover:text-pink-200">Home</a>
+                <a href="menu.html" class="hover:text-pink-200">Menu</a>
+                <a href="order.html" class="hover:text-pink-200">Order Now</a>
+                <a href="admin.html" class="hover:text-pink-200">Admin</a>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="mobile-menu hidden md:hidden mt-4">
+            <div class="flex flex-col space-y-2">
+                <a href="index.html" class="hover:text-pink-200 py-2">Home</a>
+                <a href="menu.html" class="hover:text-pink-200 py-2">Menu</a>
+                <a href="order.html" class="hover:text-pink-200 py-2">Order Now</a>
+                <a href="admin.html" class="hover:text-pink-200 py-2">Admin</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Admin Panel -->
+    <div class="container mx-auto py-6 md:py-12 px-4">
+        <!-- Login Section -->
+        <div id="loginSection" class="max-w-md mx-auto bg-white rounded-lg shadow-lg p-4 md:p-8">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-6 md:mb-8">Admin Login</h2>
+            <form id="loginForm" class="space-y-4 md:space-y-6">
+                <div>
+                    <label class="block text-gray-700 mb-1 md:mb-2" for="username">Username</label>
+                    <input type="text" id="username" required
+                        class="w-full px-3 md:px-4 py-2 border rounded-lg focus:outline-none focus:border-pink-500 text-base">
+                </div>
+                <div>
+                    <label class="block text-gray-700 mb-1 md:mb-2" for="password">Password</label>
+                    <input type="password" id="password" required
+                        class="w-full px-3 md:px-4 py-2 border rounded-lg focus:outline-none focus:border-pink-500 text-base">
+                </div>
+                <button type="submit"
+                    class="w-full bg-pink-600 text-white py-2 md:py-3 rounded-lg hover:bg-pink-700 transition duration-300 text-base md:text-lg">
+                    Login
+                </button>
+            </form>
+        </div>
+
+        <!-- Admin Dashboard -->
+        <div id="adminDashboard" class="hidden">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 md:mb-8 gap-4">
+                <h2 class="text-2xl md:text-3xl font-bold">Admin Dashboard</h2>
+                <button id="logoutBtn" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 w-full md:w-auto">
+                    Logout
+                </button>
+            </div>
+
+            <!-- Add New Cake Form -->
+            <div class="bg-white rounded-lg shadow-lg p-4 md:p-8 mb-6 md:mb-8">
+                <h3 class="text-xl md:text-2xl font-bold mb-4 md:mb-6">Add New Cake Variant</h3>
+                <form id="addCakeForm" class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                    <div>
+                        <label class="block text-gray-700 mb-1 md:mb-2" for="cakeName">Cake Name</label>
+                        <input type="text" id="cakeName" required
+                            class="w-full px-3 md:px-4 py-2 border rounded-lg focus:outline-none focus:border-pink-500 text-base">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-1 md:mb-2" for="cakePrice">Price</label>
+                        <input type="number" id="cakePrice" required step="0.01"
+                            class="w-full px-3 md:px-4 py-2 border rounded-lg focus:outline-none focus:border-pink-500 text-base">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-1 md:mb-2" for="cakeSize">Size</label>
+                        <input type="text" id="cakeSize" required
+                            class="w-full px-3 md:px-4 py-2 border rounded-lg focus:outline-none focus:border-pink-500 text-base">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-1 md:mb-2" for="cakeFlavor">Flavor</label>
+                        <input type="text" id="cakeFlavor" required
+                            class="w-full px-3 md:px-4 py-2 border rounded-lg focus:outline-none focus:border-pink-500 text-base">
+                    </div>
+                    <div class="md:col-span-2">
+                        <button type="submit"
+                            class="w-full bg-pink-600 text-white py-2 md:py-3 rounded-lg hover:bg-pink-700 transition duration-300 text-base md:text-lg">
+                            Add Cake Variant
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Orders List -->
+            <div class="bg-white rounded-lg shadow-lg p-4 md:p-8">
+                <h3 class="text-xl md:text-2xl font-bold mb-4 md:mb-6">Recent Orders</h3>
+                <div id="ordersList" class="space-y-4">
+                    <!-- Orders will be dynamically added here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Admin credentials (in a real application, this would be handled server-side)
+        const ADMIN_CREDENTIALS = {
+            username: 'admin',
+            password: 'admin123'
+        };
+
+        // Login form handler
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
+                document.getElementById('loginSection').classList.add('hidden');
+                document.getElementById('adminDashboard').classList.remove('hidden');
+                loadOrders();
+            } else {
+                alert('Invalid credentials!');
+            }
+        });
+
+        // Logout handler
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            document.getElementById('loginSection').classList.remove('hidden');
+            document.getElementById('adminDashboard').classList.add('hidden');
+            document.getElementById('loginForm').reset();
+        });
+
+        // Add new cake form handler
+        document.getElementById('addCakeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const newCake = {
+                name: document.getElementById('cakeName').value,
+                price: document.getElementById('cakePrice').value,
+                size: document.getElementById('cakeSize').value,
+                flavor: document.getElementById('cakeFlavor').value
+            };
+
+            // Store in localStorage (in a real application, this would be sent to a server)
+            const cakes = JSON.parse(localStorage.getItem('cakeVariants') || '[]');
+            cakes.push(newCake);
+            localStorage.setItem('cakeVariants', JSON.stringify(cakes));
+
+            alert('New cake variant added successfully!');
+            this.reset();
+        });
+
+        // Load and display orders
+        function loadOrders() {
+            const ordersList = document.getElementById('ordersList');
+            const orders = JSON.parse(localStorage.getItem('cakeOrders') || '[]');
+
+            ordersList.innerHTML = orders.map(order => `
+                <div class="order-card bg-gray-50 p-4 md:p-6 rounded-lg border">
+                    <div class="flex flex-col md:flex-row justify-between items-start gap-4">
+                        <div class="flex-1">
+                            <h4 class="text-lg font-semibold">${order.name}</h4>
+                            <p class="text-gray-600">Phone: ${order.phone}</p>
+                            <p class="text-gray-600">Address: ${order.address}</p>
+                            <p class="text-gray-600">Cake: ${order.flavor} - ${order.size}</p>
+                            ${order.message ? `<p class="text-gray-600">Message: ${order.message}</p>` : ''}
+                            <p class="text-sm text-gray-500">Ordered on: ${new Date(order.date).toLocaleString()}</p>
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
+                            <button onclick="updateOrderStatus(${order.id}, 'accepted')"
+                                class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 w-full sm:w-auto">
+                                Accept
+                            </button>
+                            <button onclick="updateOrderStatus(${order.id}, 'cancelled')"
+                                class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 w-full sm:w-auto">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mt-2">
+                        <span class="px-3 py-1 rounded-full text-sm ${
+                            order.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                            order.status === 'accepted' ? 'bg-green-100 text-green-800' :
+                            'bg-red-100 text-red-800'
+                        }">
+                            ${order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                        </span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Update order status
+        function updateOrderStatus(orderId, newStatus) {
+            const orders = JSON.parse(localStorage.getItem('cakeOrders') || '[]');
+            const orderIndex = orders.findIndex(order => order.id === orderId);
+            
+            if (orderIndex !== -1) {
+                orders[orderIndex].status = newStatus;
+                localStorage.setItem('cakeOrders', JSON.stringify(orders));
+                loadOrders();
+            }
+        }
+    </script>
+</body>
+</html> 

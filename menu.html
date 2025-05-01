@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cake Delights - Menu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .cake-card {
+            transition: all 0.3s ease;
+        }
+        .cake-card:hover {
+            transform: translateY(-5px);
+        }
+        .mobile-menu {
+            display: none;
+        }
+        @media (max-width: 768px) {
+            .mobile-menu {
+                display: block;
+            }
+            .desktop-menu {
+                display: none;
+            }
+            .mobile-menu.active {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Navigation -->
+    <nav class="bg-pink-600 text-white p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold">Cake Delights</h1>
+            <!-- Mobile Menu Button -->
+            <button id="mobileMenuBtn" class="mobile-menu md:hidden">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+            <!-- Desktop Menu -->
+            <div class="desktop-menu space-x-4">
+                <a href="index.html" class="hover:text-pink-200">Home</a>
+                <a href="menu.html" class="hover:text-pink-200">Menu</a>
+                <a href="order.html" class="hover:text-pink-200">Order Now</a>
+                <a href="admin.html" class="hover:text-pink-200">Admin</a>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="mobile-menu hidden md:hidden mt-4">
+            <div class="flex flex-col space-y-2">
+                <a href="index.html" class="hover:text-pink-200 py-2">Home</a>
+                <a href="menu.html" class="hover:text-pink-200 py-2">Menu</a>
+                <a href="order.html" class="hover:text-pink-200 py-2">Order Now</a>
+                <a href="admin.html" class="hover:text-pink-200 py-2">Admin</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Menu Section -->
+    <div class="container mx-auto py-6 md:py-12 px-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-center mb-8 md:mb-12">Our Cake Menu</h2>
+        
+        <!-- Default Cakes -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-8 mb-8 md:mb-12">
+            <!-- Chocolate Cake -->
+            <div class="cake-card bg-white rounded-lg shadow-lg overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587" alt="Chocolate Cake" class="w-full h-48 object-cover">
+                <div class="p-4 md:p-6">
+                    <h3 class="text-lg md:text-xl font-bold mb-2">Chocolate Delight</h3>
+                    <p class="text-gray-600 mb-4">Rich chocolate cake with ganache frosting</p>
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                        <p class="text-pink-600 font-bold">From $25.99</p>
+                        <a href="order.html" class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700 w-full sm:w-auto text-center">Order Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vanilla Cake -->
+            <div class="cake-card bg-white rounded-lg shadow-lg overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1621303837174-89787a7d4729" alt="Vanilla Cake" class="w-full h-48 object-cover">
+                <div class="p-4 md:p-6">
+                    <h3 class="text-lg md:text-xl font-bold mb-2">Vanilla Dream</h3>
+                    <p class="text-gray-600 mb-4">Classic vanilla cake with buttercream frosting</p>
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                        <p class="text-pink-600 font-bold">From $22.99</p>
+                        <a href="order.html" class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700 w-full sm:w-auto text-center">Order Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Strawberry Cake -->
+            <div class="cake-card bg-white rounded-lg shadow-lg overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1624353365286-3f8d62daad51" alt="Strawberry Cake" class="w-full h-48 object-cover">
+                <div class="p-4 md:p-6">
+                    <h3 class="text-lg md:text-xl font-bold mb-2">Strawberry Bliss</h3>
+                    <p class="text-gray-600 mb-4">Fresh strawberry cake with cream frosting</p>
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                        <p class="text-pink-600 font-bold">From $27.99</p>
+                        <a href="order.html" class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700 w-full sm:w-auto text-center">Order Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional Cake Variants -->
+        <h3 class="text-xl md:text-2xl font-bold text-center mb-6 md:mb-8">Additional Variants</h3>
+        <div id="additionalCakes" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
+            <!-- Additional cakes will be dynamically added here -->
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-pink-800 text-white py-6 md:py-8 mt-8 md:mt-12">
+        <div class="container mx-auto text-center px-4">
+            <p>&copy; 2024 Cake Delights. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Load additional cake variants from localStorage
+        function loadAdditionalCakes() {
+            const additionalCakes = document.getElementById('additionalCakes');
+            const cakes = JSON.parse(localStorage.getItem('cakeVariants') || '[]');
+
+            additionalCakes.innerHTML = cakes.map(cake => `
+                <div class="cake-card bg-white rounded-lg shadow-lg overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587" alt="${cake.name}" class="w-full h-48 object-cover">
+                    <div class="p-4 md:p-6">
+                        <h3 class="text-lg md:text-xl font-bold mb-2">${cake.name}</h3>
+                        <p class="text-gray-600 mb-4">${cake.flavor} - ${cake.size}</p>
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                            <p class="text-pink-600 font-bold">$${cake.price}</p>
+                            <a href="order.html" class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700 w-full sm:w-auto text-center">Order Now</a>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Load additional cakes when the page loads
+        loadAdditionalCakes();
+    </script>
+</body>
+</html> 

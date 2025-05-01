@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cake Delights - Order</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .form-input:focus {
+            border-color: #db2777;
+            box-shadow: 0 0 0 2px rgba(219, 39, 119, 0.2);
+        }
+        .mobile-menu {
+            display: none;
+        }
+        @media (max-width: 768px) {
+            .mobile-menu {
+                display: block;
+            }
+            .desktop-menu {
+                display: none;
+            }
+            .mobile-menu.active {
+                display: block;
+            }
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 500px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Navigation -->
+    <nav class="bg-pink-600 text-white p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold">Cake Delights</h1>
+            <!-- Mobile Menu Button -->
+            <button id="mobileMenuBtn" class="mobile-menu md:hidden">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+            <!-- Desktop Menu -->
+            <div class="desktop-menu space-x-4">
+                <a href="index.html" class="hover:text-pink-200">Home</a>
+                <a href="menu.html" class="hover:text-pink-200">Menu</a>
+                <a href="order.html" class="hover:text-pink-200">Order Now</a>
+                <a href="admin.html" class="hover:text-pink-200">Admin</a>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="mobile-menu hidden md:hidden mt-4">
+            <div class="flex flex-col space-y-2">
+                <a href="index.html" class="hover:text-pink-200 py-2">Home</a>
+                <a href="menu.html" class="hover:text-pink-200 py-2">Menu</a>
+                <a href="order.html" class="hover:text-pink-200 py-2">Order Now</a>
+                <a href="admin.html" class="hover:text-pink-200 py-2">Admin</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Order Form -->
+    <div class="container mx-auto py-6 md:py-12 px-4">
+        <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-4 md:p-8">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-6 md:mb-8">Place Your Order</h2>
+            <form id="orderForm" class="space-y-4 md:space-y-6">
+                <!-- Personal Information -->
+                <div class="space-y-3 md:space-y-4">
+                    <h3 class="text-lg md:text-xl font-semibold text-pink-800">Personal Information</h3>
+                    <div>
+                        <label class="block text-gray-700 mb-1 md:mb-2" for="name">Full Name</label>
+                        <input type="text" id="name" name="name" required
+                            class="form-input w-full px-3 md:px-4 py-2 border rounded-lg focus:outline-none text-base">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-1 md:mb-2" for="phone">Phone Number</label>
+                        <div class="flex items-center">
+                            <span class="bg-gray-200 px-3 py-2 rounded-l-lg border border-r-0">+880</span>
+                            <input type="tel" id="phone" name="phone" required pattern="[0-9]{10,}" 
+                                class="form-input w-full px-3 md:px-4 py-2 border rounded-r-lg focus:outline-none text-base"
+                                placeholder="Enter at least 10 digits" oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                minlength="10">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-1 md:mb-2" for="address">Delivery Address</label>
+                        <textarea id="address" name="address" required rows="3"
+                            class="form-input w-full px-3 md:px-4 py-2 border rounded-lg focus:outline-none text-base"></textarea>
+                    </div>
+                </div>
+
+                <!-- Cake Details -->
+                <div class="space-y-3 md:space-y-4">
+                    <h3 class="text-lg md:text-xl font-semibold text-pink-800">Cake Details</h3>
+                    <div>
+                        <label class="block text-gray-700 mb-1 md:mb-2" for="flavor">Cake Flavor</label>
+                        <select id="flavor" name="flavor" required
+                            class="form-input w-full px-3 md:px-4 py-2 border rounded-lg focus:outline-none text-base">
+                            <option value="">Select a flavor</option>
+                            <option value="chocolate">Chocolate</option>
+                            <option value="vanilla">Vanilla</option>
+                            <option value="strawberry">Strawberry</option>
+                            <option value="red-velvet">Red Velvet</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-1 md:mb-2" for="size">Cake Size</label>
+                        <select id="size" name="size" required
+                            class="form-input w-full px-3 md:px-4 py-2 border rounded-lg focus:outline-none text-base">
+                            <option value="">Select a size</option>
+                            <option value="small">Small (6 inches) - $25.99</option>
+                            <option value="medium">Medium (8 inches) - $35.99</option>
+                            <option value="large">Large (10 inches) - $45.99</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-1 md:mb-2" for="sugar">Sugar Level</label>
+                        <select id="sugar" name="sugar" required
+                            class="form-input w-full px-3 md:px-4 py-2 border rounded-lg focus:outline-none text-base">
+                            <option value="">Select sugar level</option>
+                            <option value="regular">Regular Sugar</option>
+                            <option value="sugar-free">Sugar Free</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-1 md:mb-2" for="message">Special Message (Optional)</label>
+                        <textarea id="message" name="message" rows="2"
+                            class="form-input w-full px-3 md:px-4 py-2 border rounded-lg focus:outline-none text-base"
+                            placeholder="Any special instructions or message on the cake"></textarea>
+                    </div>
+                </div>
+
+                <button type="submit"
+                    class="w-full bg-pink-600 text-white py-2 md:py-3 rounded-lg hover:bg-pink-700 transition duration-300 text-base md:text-lg">
+                    Place Order
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Order Confirmation Modal -->
+    <div id="confirmationModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-pink-800">Order Confirmation</h3>
+                <button id="closeModal" class="text-gray-500 hover:text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <div id="orderDetails" class="space-y-3 text-gray-700"></div>
+            <div class="mt-6 text-center">
+                <p class="text-green-600 font-semibold mb-4">Your order has been placed successfully!</p>
+                <button id="confirmButton" class="bg-pink-600 text-white px-6 py-2 rounded-lg hover:bg-pink-700 transition duration-300">
+                    OK
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-pink-800 text-white py-6 md:py-8 mt-8 md:mt-12">
+        <div class="container mx-auto text-center px-4">
+            <p>&copy; 2024 Cake Delights. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Modal elements
+        const modal = document.getElementById('confirmationModal');
+        const closeModal = document.getElementById('closeModal');
+        const confirmButton = document.getElementById('confirmButton');
+        const orderDetails = document.getElementById('orderDetails');
+
+        // Close modal when clicking close button or OK button
+        closeModal.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+        
+        confirmButton.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        // Form submission
+        document.getElementById('orderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = {
+                name: document.getElementById('name').value,
+                phone: '+880' + document.getElementById('phone').value,
+                address: document.getElementById('address').value,
+                flavor: document.getElementById('flavor').value,
+                size: document.getElementById('size').value,
+                sugar: document.getElementById('sugar').value,
+                message: document.getElementById('message').value || 'None'
+            };
+
+            // Display order details in modal
+            orderDetails.innerHTML = `
+                <p><strong>Name:</strong> ${formData.name}</p>
+                <p><strong>Phone:</strong> ${formData.phone}</p>
+                <p><strong>Address:</strong> ${formData.address}</p>
+                <p><strong>Cake Flavor:</strong> ${formData.flavor}</p>
+                <p><strong>Size:</strong> ${formData.size}</p>
+                <p><strong>Sugar Level:</strong> ${formData.sugar}</p>
+                <p><strong>Special Message:</strong> ${formData.message}</p>
+                <p><strong>Order Date:</strong> ${new Date().toLocaleString()}</p>
+            `;
+
+            // Show the modal
+            modal.style.display = 'block';
+
+            // Store order in localStorage (in a real application, this would be sent to a server)
+            const orders = JSON.parse(localStorage.getItem('cakeOrders') || '[]');
+            orders.push({
+                ...formData,
+                id: Date.now(),
+                status: 'pending',
+                date: new Date().toISOString()
+            });
+            localStorage.setItem('cakeOrders', JSON.stringify(orders));
+
+            // Reset form
+            this.reset();
+        });
+    </script>
+</body>
+</html> 

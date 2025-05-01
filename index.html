@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoonGlow Cakes  - Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .cake-card:hover {
+            transform: translateY(-5px);
+            transition: transform 0.3s ease;
+        }
+        .mobile-menu {
+            display: none;
+        }
+        @media (max-width: 768px) {
+            .mobile-menu {
+                display: block;
+            }
+            .desktop-menu {
+                display: none;
+            }
+            .mobile-menu.active {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Navigation -->
+    <nav class="bg-pink-600 text-white p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold">MoonGlow Cakes  </h1>
+            <!-- Mobile Menu Button -->
+            <button id="mobileMenuBtn" class="mobile-menu md:hidden">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+            <!-- Desktop Menu -->
+            <div class="desktop-menu space-x-4">
+                <a href="index.html" class="hover:text-pink-200">Home</a>
+                <a href="menu.html" class="hover:text-pink-200">Menu</a>
+                <a href="order.html" class="hover:text-pink-200">Order Now</a>
+                <a href="admin.html" class="hover:text-pink-200">Admin</a>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="mobile-menu hidden md:hidden mt-4">
+            <div class="flex flex-col space-y-2">
+                <a href="index.html" class="hover:text-pink-200 py-2">Home</a>
+                <a href="menu.html" class="hover:text-pink-200 py-2">Menu</a>
+                <a href="order.html" class="hover:text-pink-200 py-2">Order Now</a>
+                <a href="admin.html" class="hover:text-pink-200 py-2">Admin</a>
+            </div>
+        </div>
+    </nav>
+    <!-- Filter Navbar -->
+    <nav class="bg-white p-4 shadow-sm">
+        <div class="container mx-auto">
+            <div class="flex flex-col md:flex-row">
+                <!-- Left side filters -->
+                <div class="w-full md:w-1/2 space-y-4 md:pr-4">
+                    <select class="form-select block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm transition-all duration-300 hover:border-pink-400">
+                        <option value="">Select Flavor</option>
+                        <option value="chocolate">Chocolate</option>
+                        <option value="vanilla">Vanilla</option>
+                        <option value="strawberry">Strawberry</option>
+                        <option value="redvelvet">Red Velvet</option>
+                        <option value="caramel">Caramel</option>
+                    </select>
+                    <select class="form-select block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm transition-all duration-300 hover:border-pink-400">
+                        <option value="">Select Size</option>
+                        <option value="small">Small</option>
+                        <option value="medium">Medium</option>
+                        <option value="large">Large</option>
+                        <option value="xlarge">Extra Large</option>
+                    </select>
+                    <select class="form-select block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm transition-all duration-300 hover:border-pink-400">
+                        <option value="">Occasion</option>
+                        <option value="birthday">Birthday</option>
+                        <option value="wedding">Wedding</option>
+                        <option value="anniversary">Anniversary</option>
+                        <option value="celebration">Celebration</option>
+                    </select>
+                </div>
+                
+                <!-- Right side filters -->
+                <div class="w-full md:w-1/2 mt-4 md:mt-0 md:pl-4">
+                    <div class="flex flex-col space-y-4">
+                        <!-- Dietary options -->
+                        <div class="flex flex-wrap gap-2">
+                            <span class="text-sm font-medium text-gray-700">Dietary Options:</span>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="form-checkbox text-pink-600 rounded">
+                                <span class="ml-2 text-sm text-gray-700">Gluten-Free</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="form-checkbox text-pink-600 rounded">
+                                <span class="ml-2 text-sm text-gray-700">Vegan</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="form-checkbox text-pink-600 rounded">
+                                <span class="ml-2 text-sm text-gray-700">Sugar-Free</span>
+                            </label>
+                        </div>
+                        
+                        <!-- Price range in compact form -->
+                        <div class="bg-gray-50 p-2 rounded-md border border-gray-200 w-full md:w-2/3">
+                            <div class="flex items-center justify-between mb-1">
+                                <label for="priceRange" class="text-xs font-medium text-gray-700">Price: <span id="priceValue" class="text-pink-600 font-semibold">300</span> BDT</label>
+                                <div class="text-xs text-gray-500">
+                                    <span>300-5000</span>
+                                </div>
+                            </div>
+                            <input 
+                                type="range" 
+                                id="priceRange" 
+                                min="300" 
+                                max="5000" 
+                                step="100" 
+                                value="300" 
+                                class="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-pink-600"
+                            >
+                        </div>
+                        
+                        <!-- Search button -->
+                        <button class="bg-pink-600 text-white py-2 px-4 rounded-md hover:bg-pink-700 transition-colors duration-300 shadow-sm hover:shadow-md w-full md:w-auto md:self-end">
+                            Search Cakes
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <script>
+        // Update price display when slider changes
+        document.getElementById('priceRange').addEventListener('input', function() {
+            const value = this.value;
+            const priceValue = document.getElementById('priceValue');
+            priceValue.textContent = value;
+            
+            // Add animation effect
+            priceValue.classList.add('scale-110', 'text-pink-700');
+            setTimeout(() => {
+                priceValue.classList.remove('scale-110', 'text-pink-700');
+            }, 300);
+        });
+    </script>
+
+    <!-- Hero Section -->
+    <div class="bg-gradient-to-r from-pink-100 to-pink-200 py-8 md:py-16 transition-all duration-500">
+        <div class="container mx-auto text-center px-4">
+            <h2 class="text-3xl md:text-4xl font-bold text-pink-800 mb-4 animate-fadeIn">Welcome to MoonGlow Cakes </h2>
+            <p class="text-lg md:text-xl text-gray-600 mb-8">Delicious cakes made with love and care</p>
+            <a href="order.html" class="inline-block bg-pink-600 text-white px-6 py-3 rounded-full hover:bg-pink-700 transform hover:scale-105 transition-all duration-300 shadow-md hover:shadow-lg">Order Now</a>
+        </div>
+    </div>
+
+    <!-- Featured Cakes -->
+    <div class="container mx-auto py-8 md:py-16 px-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-center mb-8 md:mb-12">Featured Cakes</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
+            <!-- Cake Card 1 -->
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden cake-card">
+                <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587" alt="Chocolate Cake" class="w-full h-48 object-cover">
+                <div class="p-4 md:p-6">
+                    <h3 class="text-lg md:text-xl font-bold mb-2">Chocolate Delight</h3>
+                    <p class="text-gray-600 mb-4">Rich chocolate cake with ganache</p>
+                    <p class="text-pink-600 font-bold">From $25.99</p>
+                </div>
+            </div>
+
+            <!-- Cake Card 2 -->
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden cake-card">
+                <img src="https://images.unsplash.com/photo-1621303837174-89787a7d4729" alt="Vanilla Cake" class="w-full h-48 object-cover">
+                <div class="p-4 md:p-6">
+                    <h3 class="text-lg md:text-xl font-bold mb-2">Vanilla Dream</h3>
+                    <p class="text-gray-600 mb-4">Classic vanilla cake with buttercream</p>
+                    <p class="text-pink-600 font-bold">From $22.99</p>
+                </div>
+            </div>
+
+            <!-- Cake Card 3 -->
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden cake-card">
+                <img src="https://images.unsplash.com/photo-1624353365286-3f8d62daad51" alt="Strawberry Cake" class="w-full h-48 object-cover">
+                <div class="p-4 md:p-6">
+                    <h3 class="text-lg md:text-xl font-bold mb-2">Strawberry Bliss</h3>
+                    <p class="text-gray-600 mb-4">Fresh strawberry cake with cream</p>
+                    <p class="text-pink-600 font-bold">From $27.99</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-pink-800 text-white py-6 md:py-8">
+        <div class="container mx-auto text-center px-4">
+            <p>&copy; 2024 Cake Delights. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html> 
