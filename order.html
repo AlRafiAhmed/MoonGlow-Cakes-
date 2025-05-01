@@ -73,11 +73,50 @@
         </div>
     </nav>
 
+    <!-- Cake Details Preview -->
+    <div id="cakePreview" class="max-w-2xl mx-auto bg-pink-50 rounded-lg shadow p-4 md:p-6 mb-6 hidden">
+        <div class="flex flex-col md:flex-row gap-4 items-center">
+            <img id="cakePreviewImg" src="" alt="Cake Image" class="w-32 h-32 object-cover rounded-lg border">
+            <div>
+                <h3 id="cakePreviewName" class="text-2xl font-bold text-pink-700 mb-1"></h3>
+                <p id="cakePreviewDesc" class="text-gray-700 mb-2"></p>
+                <div id="cakePreviewPrices" class="text-gray-600 text-base"></div>
+            </div>
+        </div>
+    </div>
+
     <!-- Order Form -->
     <div class="container mx-auto py-6 md:py-12 px-4">
         <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-4 md:p-8">
             <h2 class="text-2xl md:text-3xl font-bold text-center mb-6 md:mb-8">Place Your Order</h2>
             <form id="orderForm" class="space-y-4 md:space-y-6">
+                <!-- Cake Selection -->
+                <div class="space-y-3 md:space-y-4">
+                    <h3 class="text-lg md:text-xl font-semibold text-pink-800">Select Cake</h3>
+                    <div>
+                        <label class="block text-gray-700 mb-1 md:mb-2" for="flavor">Cake Flavor</label>
+                        <select id="flavor" name="flavor" required
+                            class="form-input w-full px-3 md:px-4 py-2 border rounded-lg focus:outline-none text-base">
+                            <option value="">Select a flavor</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-1 md:mb-2" for="size">Cake Size</label>
+                        <select id="size" name="size" required
+                            class="form-input w-full px-3 md:px-4 py-2 border rounded-lg focus:outline-none text-base">
+                            <option value="">Select a size</option>
+                            <option value="small">Small</option>
+                            <option value="medium">Medium</option>
+                            <option value="large">Large</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-1 md:mb-2" for="quantity">Quantity</label>
+                        <input type="number" id="quantity" name="quantity" min="1" value="1" required
+                            class="form-input w-full px-3 md:px-4 py-2 border rounded-lg focus:outline-none text-base">
+                    </div>
+                    <div class="text-lg font-bold text-pink-700">Final Price: <span id="finalPrice">0</span> BDT</div>
+                </div>
                 <!-- Personal Information -->
                 <div class="space-y-3 md:space-y-4">
                     <h3 class="text-lg md:text-xl font-semibold text-pink-800">Personal Information</h3>
@@ -101,45 +140,13 @@
                         <textarea id="address" name="address" required rows="3"
                             class="form-input w-full px-3 md:px-4 py-2 border rounded-lg focus:outline-none text-base"></textarea>
                     </div>
-                </div>
-
-                <!-- Cake Details -->
-                <div class="space-y-3 md:space-y-4">
-                    <h3 class="text-lg md:text-xl font-semibold text-pink-800">Cake Details</h3>
                     <div>
-                        <label class="block text-gray-700 mb-1 md:mb-2" for="flavor">Cake Flavor</label>
-                        <select id="flavor" name="flavor" required
-                            class="form-input w-full px-3 md:px-4 py-2 border rounded-lg focus:outline-none text-base">
-                            <option value="">Select a flavor</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-gray-700 mb-1 md:mb-2" for="size">Cake Size</label>
-                        <select id="size" name="size" required
-                            class="form-input w-full px-3 md:px-4 py-2 border rounded-lg focus:outline-none text-base">
-                            <option value="">Select a size</option>
-                            <option value="small">Small (6 inches) - $25.99</option>
-                            <option value="medium">Medium (8 inches) - $35.99</option>
-                            <option value="large">Large (10 inches) - $45.99</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-gray-700 mb-1 md:mb-2" for="sugar">Sugar Level</label>
-                        <select id="sugar" name="sugar" required
-                            class="form-input w-full px-3 md:px-4 py-2 border rounded-lg focus:outline-none text-base">
-                            <option value="">Select sugar level</option>
-                            <option value="regular">Regular Sugar</option>
-                            <option value="sugar-free">Sugar Free</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-gray-700 mb-1 md:mb-2" for="message">Special Message (Optional)</label>
+                        <label class="block text-gray-700 mb-1 md:mb-2" for="message">Additional Description (Optional)</label>
                         <textarea id="message" name="message" rows="2"
                             class="form-input w-full px-3 md:px-4 py-2 border rounded-lg focus:outline-none text-base"
                             placeholder="Any special instructions or message on the cake"></textarea>
                     </div>
                 </div>
-
                 <button type="submit"
                     class="w-full bg-pink-600 text-white py-2 md:py-3 rounded-lg hover:bg-pink-700 transition duration-300 text-base md:text-lg">
                     Place Order
@@ -225,6 +232,66 @@
         // Load cake flavors when the page loads
         loadCakeFlavors();
 
+        // --- Cake Preview and Price Calculation ---
+        const cakes = JSON.parse(localStorage.getItem('cakeVariants') || '[]');
+        const flavorSelect = document.getElementById('flavor');
+        const sizeSelect = document.getElementById('size');
+        const quantityInput = document.getElementById('quantity');
+        const cakePreview = document.getElementById('cakePreview');
+        const cakePreviewImg = document.getElementById('cakePreviewImg');
+        const cakePreviewName = document.getElementById('cakePreviewName');
+        const cakePreviewDesc = document.getElementById('cakePreviewDesc');
+        const cakePreviewPrices = document.getElementById('cakePreviewPrices');
+        const finalPriceSpan = document.getElementById('finalPrice');
+
+        function updateCakePreview() {
+            const selectedFlavor = flavorSelect.value;
+            const cake = cakes.find(c => c.name === selectedFlavor);
+            if (cake) {
+                cakePreview.classList.remove('hidden');
+                cakePreviewImg.src = cake.image;
+                cakePreviewName.textContent = cake.name;
+                cakePreviewDesc.textContent = cake.description;
+                cakePreviewPrices.innerHTML = `
+                    <div>Small: <span class="font-bold">${cake.prices.small} BDT</span></div>
+                    <div>Medium: <span class="font-bold">${cake.prices.medium} BDT</span></div>
+                    <div>Large: <span class="font-bold">${cake.prices.large} BDT</span></div>
+                `;
+            } else {
+                cakePreview.classList.add('hidden');
+            }
+            updateFinalPrice();
+        }
+
+        function updateFinalPrice() {
+            const selectedFlavor = flavorSelect.value;
+            const selectedSize = sizeSelect.value;
+            const quantity = parseInt(quantityInput.value) || 1;
+            const cake = cakes.find(c => c.name === selectedFlavor);
+            let price = 0;
+            if (cake && selectedSize && cake.prices[selectedSize]) {
+                price = parseInt(cake.prices[selectedSize]) * quantity;
+            }
+            finalPriceSpan.textContent = price;
+        }
+
+        flavorSelect.addEventListener('change', updateCakePreview);
+        sizeSelect.addEventListener('change', updateFinalPrice);
+        quantityInput.addEventListener('input', updateFinalPrice);
+
+        // Populate flavor dropdown
+        function populateFlavors() {
+            flavorSelect.innerHTML = '<option value="">Select a flavor</option>';
+            cakes.forEach(cake => {
+                const option = document.createElement('option');
+                option.value = cake.name;
+                option.textContent = cake.name;
+                flavorSelect.appendChild(option);
+            });
+        }
+        populateFlavors();
+        // --- End Cake Preview and Price Calculation ---
+
         // Form submission handler
         document.getElementById('orderForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -232,34 +299,57 @@
             const formData = new FormData(this);
             const orderData = {
                 name: formData.get('name'),
-                email: formData.get('email'),
                 phone: formData.get('phone'),
                 address: formData.get('address'),
                 flavor: formData.get('flavor'),
                 size: formData.get('size'),
-                message: formData.get('message')
+                quantity: formData.get('quantity'),
+                message: formData.get('message'),
+                status: 'pending',
+                date: new Date().toISOString()
             };
-
-            // Get the selected cake details from localStorage
-            const cakes = JSON.parse(localStorage.getItem('cakeVariants') || '[]');
-            const selectedCake = cakes.find(cake => cake.name === orderData.flavor);
-            
-            if (selectedCake) {
-                // Update the order details in the modal
-                document.getElementById('orderDetails').innerHTML = `
-                    <p><strong>Name:</strong> ${orderData.name}</p>
-                    <p><strong>Email:</strong> ${orderData.email}</p>
-                    <p><strong>Phone:</strong> ${orderData.phone}</p>
-                    <p><strong>Delivery Address:</strong> ${orderData.address}</p>
-                    <p><strong>Cake:</strong> ${selectedCake.name}</p>
-                    <p><strong>Size:</strong> ${orderData.size}</p>
-                    <p><strong>Price:</strong> ${selectedCake.prices[orderData.size.toLowerCase()]} BDT</p>
-                    <p><strong>Special Message:</strong> ${orderData.message || 'None'}</p>
-                `;
+            const cake = cakes.find(c => c.name === orderData.flavor);
+            let price = 0;
+            if (cake && orderData.size && cake.prices[orderData.size]) {
+                price = parseInt(cake.prices[orderData.size]) * parseInt(orderData.quantity);
             }
+
+            // Update the order details in the modal
+            document.getElementById('orderDetails').innerHTML = `
+                <p><strong>Name:</strong> ${orderData.name}</p>
+                <p><strong>Phone:</strong> ${orderData.phone}</p>
+                <p><strong>Delivery Address:</strong> ${orderData.address}</p>
+                <p><strong>Cake:</strong> ${cake ? cake.name : ''}</p>
+                <p><strong>Size:</strong> ${orderData.size}</p>
+                <p><strong>Quantity:</strong> ${orderData.quantity}</p>
+                <p><strong>Final Price:</strong> ${price} BDT</p>
+                <p><strong>Special Message:</strong> ${orderData.message || 'None'}</p>
+            `;
 
             // Show the confirmation modal
             document.getElementById('confirmationModal').classList.remove('hidden');
+
+            // Save order for user
+            const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+            orders.push({...orderData, price});
+            localStorage.setItem('orders', JSON.stringify(orders));
+
+            // Save order for admin (recent orders)
+            const adminOrders = JSON.parse(localStorage.getItem('cakeOrders') || '[]');
+            adminOrders.push({
+                id: Date.now(),
+                name: orderData.name,
+                phone: orderData.phone,
+                address: orderData.address,
+                flavor: orderData.flavor,
+                size: orderData.size,
+                quantity: orderData.quantity,
+                message: orderData.message,
+                status: 'pending',
+                date: orderData.date,
+                price: price
+            });
+            localStorage.setItem('cakeOrders', JSON.stringify(adminOrders));
         });
 
         // Close modal when clicking the close button

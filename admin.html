@@ -105,7 +105,7 @@
         }
     </style>
 </head>
-<body class="bg-gray-100">
+<body class="bg-gray-100" onload="checkLoginStatus()">
     <!-- Navigation -->
     <nav class="bg-pink-600 text-white p-4">
         <div class="container mx-auto flex justify-between items-center">
@@ -160,7 +160,7 @@
                                 class="input-field w-full pl-10 pr-4 py-3 rounded-lg focus:outline-none text-base">
                                 <option value="">Select Admin</option>
                                 <option value="Al Rafi Ahmed">Al Rafi Ahmed</option>
-                                <option value="Saimon">Saymoon Nahar Mariam</option>
+                                <option value="Saymoon Nahar Mariam">Saymoon Nahar Mariam</option>
                             </select>
                         </div>
                     </div>
@@ -200,23 +200,21 @@
             <div class="bg-white rounded-lg shadow-lg p-4 md:p-6 mb-6 admin-profile-card animate__animated animate__fadeInDown">
                 <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
                     <div class="order-2 md:order-1 flex-1">
-                        <h2 class="text-2xl font-bold text-gray-800 mb-1" id="adminProfileName">Admin Name</h2>
-                        <p class="text-pink-600 font-medium mb-2" id="adminProfilePosition">Position: Administrator</p>
-                        <p class="text-gray-600 mb-4">Cake Delights Bakery</p>
-                        <div class="flex items-center text-gray-500 text-sm">
-                            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <h2 class="text-4xl font-bold text-gray-800 mb-2" id="adminProfileName">Admin Name</h2>
+                        <p class="text-2xl text-pink-600 font-medium mb-3" id="adminProfilePosition">Position: Administrator</p>
+                        <p class="text-xl text-gray-600 mb-6">Cake Delights Bakery</p>
+                        <div class="flex items-center text-gray-600 text-lg">
+                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
                             </svg>
-                            <span>Last login: <span id="lastLoginTime">Today at 9:30 AM</span></span>
+                            <span>Last login: <span id="lastLoginTime">Today at 9:30 AM</span> (Bangladesh Time)</span>
                         </div>
                     </div>
                     <div class="order-1 md:order-2">
-                        <div class="relative">
-                            <div class="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden admin-avatar">
-                                <img id="adminProfileImage" src="https://via.placeholder.com/128x128.png?text=Admin" alt="Admin Profile" class="w-full h-full object-cover">
-                            </div>
-                            <div class="absolute bottom-0 right-0 bg-green-500 w-5 h-5 md:w-6 md:h-6 rounded-full border-2 border-white"></div>
+                        <div class="w-48 h-48 md:w-48 md:h-48 overflow-hidden admin-avatar">
+                            <img id="adminProfileImage" src="https://via.placeholder.com/128x128.png?text=Admin" alt="Admin Profile" class="w-full h-full object-cover">
                         </div>
+                        <div class="absolute bottom-0 right-0 bg-green-500 w-5 h-5 md:w-6 md:h-6 rounded-full border-2 border-white"></div>
                     </div>
                 </div>
             </div>
@@ -338,6 +336,55 @@
     </div>
 
     <script>
+        // Check login status on page load
+        function checkLoginStatus() {
+            const loggedInUser = localStorage.getItem('loggedInUser');
+            if (loggedInUser) {
+                const userData = JSON.parse(loggedInUser);
+                showDashboard(userData, false); // Pass false to indicate this is not a fresh login
+            }
+        }
+
+        // Function to show dashboard with user data
+        function showDashboard(userData, isNewLogin = true) {
+            document.getElementById('loginSection').classList.add('hidden');
+            document.getElementById('adminDashboard').classList.remove('hidden');
+            document.getElementById('adminDashboard').classList.add('animate__animated', 'animate__fadeIn');
+            
+            // Set the admin name in the welcome message and title
+            document.getElementById('adminNameDisplay').textContent = `Welcome, ${userData.username}!`;
+            document.getElementById('adminPortalTitle').textContent = `${userData.username}'s Portal`;
+            
+            // Update admin profile card
+            document.getElementById('adminProfileName').textContent = userData.username;
+            document.getElementById('adminProfilePosition').textContent = `Position: ${userData.position}`;
+            document.getElementById('adminProfileImage').src = userData.image;
+            document.getElementById('lastLoginTime').textContent = userData.lastLogin || new Date().toLocaleString('en-US', { timeZone: 'Asia/Dhaka', hour12: true });
+            
+            // Only show welcome message for fresh logins, not on page reload
+            if (isNewLogin) {
+                // Show welcome message with animation
+                const welcomeMessage = document.getElementById('welcomeMessage');
+                welcomeMessage.classList.remove('hidden');
+                welcomeMessage.classList.add('animate__animated', 'animate__fadeInDown');
+                
+                // Auto-hide welcome message after 2 seconds
+                setTimeout(() => {
+                    welcomeMessage.classList.add('animate__fadeOutUp');
+                    setTimeout(() => {
+                        welcomeMessage.classList.add('hidden');
+                    }, 500);
+                }, 2000);
+            } else {
+                // Hide welcome message on page reload
+                document.getElementById('welcomeMessage').classList.add('hidden');
+            }
+            
+            loadOrders();
+            loadOrderHistory();
+            loadCakes();
+        }
+
         // Mobile menu toggle
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const mobileMenu = document.getElementById('mobileMenu');
@@ -370,7 +417,7 @@
                 username: 'Al Rafi Ahmed',
                 password: '1234',
                 position: 'Operational Administrator',
-                image: 'https://randomuser.me/api/portraits/men/32.jpg'
+                image: 'Al RAfi.jpg'
             },
             {
                 username: 'Saymoon Nahar Mariam',
@@ -400,27 +447,18 @@
 
             if (validAdmin) {
                 document.getElementById('loginSection').classList.add('animate__animated', 'animate__fadeOutUp');
+                
+                // Save login state to localStorage
+                const userData = {
+                    username: validAdmin.username,
+                    position: validAdmin.position,
+                    image: validAdmin.image,
+                    lastLogin: new Date().toLocaleString('en-US', { timeZone: 'Asia/Dhaka', hour12: true })
+                };
+                localStorage.setItem('loggedInUser', JSON.stringify(userData));
+                
                 setTimeout(() => {
-                    document.getElementById('loginSection').classList.add('hidden');
-                    document.getElementById('adminDashboard').classList.remove('hidden');
-                    document.getElementById('adminDashboard').classList.add('animate__animated', 'animate__fadeIn');
-                    
-                    // Set the admin name in the welcome message and title
-                    document.getElementById('adminNameDisplay').textContent = `Welcome, ${username}!`;
-                    document.getElementById('adminPortalTitle').textContent = `${username}'s Portal`;
-                    
-                    // Update admin profile card
-                    document.getElementById('adminProfileName').textContent = username;
-                    document.getElementById('adminProfilePosition').textContent = `Position: ${validAdmin.position}`;
-                    document.getElementById('adminProfileImage').src = validAdmin.image;
-                    document.getElementById('lastLoginTime').textContent = new Date().toLocaleString();
-                    
-                    // Show welcome message with animation
-                    document.getElementById('welcomeMessage').classList.add('animate__animated', 'animate__fadeInDown');
-                    
-                    loadOrders();
-                    loadOrderHistory();
-                    loadCakes();
+                    showDashboard(userData, true); // Pass true to indicate this is a fresh login
                 }, 500);
             } else {
                 document.getElementById('loginSection').classList.add('animate__animated', 'animate__shakeX');
@@ -433,6 +471,9 @@
 
         // Logout handler
         document.getElementById('logoutBtn').addEventListener('click', function() {
+            // Remove the logged in user from localStorage
+            localStorage.removeItem('loggedInUser');
+            
             document.getElementById('adminDashboard').classList.add('animate__animated', 'animate__fadeOutDown');
             setTimeout(() => {
                 document.getElementById('adminDashboard').classList.add('hidden');
