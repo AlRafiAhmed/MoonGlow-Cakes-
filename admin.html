@@ -161,7 +161,7 @@
                                 <option value="">Select Admin</option>
                                 <option value="Al Rafi Ahmed">Al Rafi Ahmed</option>
                                 <option value="Saymoon Nahar Mariam">Saymoon Nahar Mariam</option>
-                                <option value="Yubayer Bin Jakir">Yubayer Bin Jakir</option>
+                                <option value="Yubayer Bin Zakir">Yubayer Bin Zakir</option>
                             </select>
                         </div>
                     </div>
@@ -307,6 +307,15 @@
                     <button id="recentOrdersTab" class="px-4 py-2 text-pink-600 border-b-2 border-pink-600 font-medium">Recent Orders</button>
                     <button id="orderHistoryTab" class="px-4 py-2 text-gray-500 hover:text-pink-600 font-medium">Order History</button>
                     <button id="manageCakesTab" class="px-4 py-2 text-gray-500 hover:text-pink-600 font-medium">Manage Cakes</button>
+                    <button id="activityLogTab" class="px-4 py-2 text-gray-500 hover:text-pink-600 font-medium">Activity Log</button>
+                </div>
+            </div>
+
+            <!-- Activity Log Section -->
+            <div id="activityLogSection" class="bg-white rounded-lg shadow-lg p-4 md:p-8 hidden">
+                <h3 class="text-xl md:text-2xl font-bold mb-4 md:mb-6">Admin Activity Log</h3>
+                <div id="activityLogList" class="space-y-4">
+                    <!-- Activity logs will be dynamically added here -->
                 </div>
             </div>
 
@@ -427,10 +436,10 @@
                 image: 'https://randomuser.me/api/portraits/women/44.jpg'
             },
             {
-                username: 'Yubayer Bin Jakir',
+                username: 'Yubayer Bin Zakir',
                 password: '1234',
-                position: 'Operational Administrator',
-                image: 'https://randomuser.me/api/portraits/men/32.jpg'
+                position: 'উচ্চপদস্থ কর্মকর্তা',
+                image: 'Yubayer.jpg'
             }
         ];
 
@@ -530,6 +539,22 @@
             loadCakes();
         });
 
+        document.getElementById('activityLogTab').addEventListener('click', function() {
+            document.getElementById('recentOrdersSection').classList.add('hidden');
+            document.getElementById('orderHistorySection').classList.add('hidden');
+            document.getElementById('manageCakesSection').classList.add('hidden');
+            document.getElementById('activityLogSection').classList.remove('hidden');
+            this.classList.add('text-pink-600', 'border-b-2', 'border-pink-600');
+            this.classList.remove('text-gray-500');
+            document.getElementById('recentOrdersTab').classList.remove('text-pink-600', 'border-b-2', 'border-pink-600');
+            document.getElementById('recentOrdersTab').classList.add('text-gray-500');
+            document.getElementById('orderHistoryTab').classList.remove('text-pink-600', 'border-b-2', 'border-pink-600');
+            document.getElementById('orderHistoryTab').classList.add('text-gray-500');
+            document.getElementById('manageCakesTab').classList.remove('text-pink-600', 'border-b-2', 'border-pink-600');
+            document.getElementById('manageCakesTab').classList.add('text-gray-500');
+            loadActivityLog();
+        });
+
         // Add new cake form handler
         document.getElementById('addCakeForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -540,13 +565,12 @@
                 return;
             }
             
-            // Convert image to base64 for storage
             const reader = new FileReader();
             reader.onload = function(event) {
                 const imageBase64 = event.target.result;
                 
                 const newCake = {
-                    id: Date.now(), // Generate a unique ID
+                    id: Date.now(),
                     name: document.getElementById('cakeName').value,
                     description: document.getElementById('cakeDescription').value,
                     prices: {
@@ -559,13 +583,15 @@
                     dateAdded: new Date().toISOString()
                 };
 
-                // Store in localStorage (in a real application, this would be sent to a server)
                 const cakes = JSON.parse(localStorage.getItem('cakeVariants') || '[]');
                 cakes.push(newCake);
                 localStorage.setItem('cakeVariants', JSON.stringify(cakes));
 
+                // Log the activity
+                logActivity('created', `Added new cake variant: ${newCake.name}`);
+
                 alert('New cake variant added successfully!');
-                loadCakes(); // Refresh the cakes list
+                loadCakes();
                 this.reset();
             };
             reader.readAsDataURL(cakeImageFile);
@@ -710,9 +736,14 @@
             const orderIndex = orders.findIndex(order => order.id === orderId);
             
             if (orderIndex !== -1) {
+                const order = orders[orderIndex];
                 orders[orderIndex].status = newStatus;
                 orders[orderIndex].statusUpdateTime = new Date().toISOString();
                 localStorage.setItem('cakeOrders', JSON.stringify(orders));
+                
+                // Log the activity
+                logActivity(newStatus, `Order #${orderId} for ${order.name} (${order.flavor} - ${order.size})`);
+                
                 loadOrders();
                 loadOrderHistory();
             }
@@ -722,10 +753,15 @@
         function deleteCake(cakeId) {
             if (confirm('Are you sure you want to delete this cake variant?')) {
                 const cakes = JSON.parse(localStorage.getItem('cakeVariants') || '[]');
+                const cakeToDelete = cakes.find(cake => cake.id === cakeId);
                 const updatedCakes = cakes.filter(cake => cake.id !== cakeId);
                 localStorage.setItem('cakeVariants', JSON.stringify(updatedCakes));
                 
-                // Also remove any orders associated with this cake
+                // Log the activity
+                if (cakeToDelete) {
+                    logActivity('deleted', `Deleted cake variant: ${cakeToDelete.name}`);
+                }
+                
                 const orders = JSON.parse(localStorage.getItem('cakeOrders') || '[]');
                 const updatedOrders = orders.filter(order => {
                     const cakes = JSON.parse(localStorage.getItem('cakeVariants') || '[]');
@@ -808,11 +844,13 @@
             const index = cakes.findIndex(c => c.id === updatedCake.id);
             
             if (index !== -1) {
-                // Update the cake in the array
+                const oldCake = cakes[index];
                 cakes[index] = updatedCake;
                 localStorage.setItem('cakeVariants', JSON.stringify(cakes));
 
-                // Update any orders that reference this cake
+                // Log the activity
+                logActivity('updated', `Updated cake variant: ${updatedCake.name}`);
+
                 const orders = JSON.parse(localStorage.getItem('cakeOrders') || '[]');
                 const updatedOrders = orders.map(order => {
                     if (order.flavor === updatedCake.name) {
@@ -828,6 +866,56 @@
                 alert('Cake variant updated successfully!');
                 loadCakes();
             }
+        }
+
+        // Add this function to log activities
+        function logActivity(action, details) {
+            const activities = JSON.parse(localStorage.getItem('adminActivities') || '[]');
+            const currentUser = JSON.parse(localStorage.getItem('loggedInUser'));
+            
+            const activity = {
+                id: Date.now(),
+                admin: currentUser.username,
+                action: action,
+                details: details,
+                timestamp: new Date().toISOString()
+            };
+            
+            activities.unshift(activity); // Add to beginning of array
+            localStorage.setItem('adminActivities', JSON.stringify(activities));
+            loadActivityLog();
+        }
+
+        // Add this function to load and display activity logs
+        function loadActivityLog() {
+            const activityLogList = document.getElementById('activityLogList');
+            const activities = JSON.parse(localStorage.getItem('adminActivities') || '[]');
+
+            activityLogList.innerHTML = activities.length === 0 ? 
+                '<p class="text-gray-500 text-center py-4">No activities logged yet</p>' : 
+                activities.map(activity => `
+                <div class="order-card bg-gray-50 p-4 md:p-6 rounded-lg border">
+                    <div class="flex flex-col md:flex-row justify-between items-start gap-4">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2">
+                                <span class="px-3 py-1 rounded-full text-sm ${
+                                    activity.action === 'created' ? 'bg-blue-100 text-blue-800' :
+                                    activity.action === 'accepted' ? 'bg-green-100 text-green-800' :
+                                    activity.action === 'cancelled' ? 'bg-red-100 text-red-800' :
+                                    activity.action === 'updated' ? 'bg-yellow-100 text-yellow-800' :
+                                    activity.action === 'deleted' ? 'bg-red-100 text-red-800' :
+                                    'bg-gray-100 text-gray-800'
+                                }">
+                                    ${activity.action.charAt(0).toUpperCase() + activity.action.slice(1)}
+                                </span>
+                                <span class="text-gray-600">by ${activity.admin}</span>
+                            </div>
+                            <p class="text-gray-600 mt-2">${activity.details}</p>
+                            <p class="text-sm text-gray-500 mt-2">${new Date(activity.timestamp).toLocaleString()}</p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
         }
     </script>
 </body>
