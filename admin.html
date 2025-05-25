@@ -322,7 +322,7 @@
         }
     </style>
 </head>
-<body class="bg-gray-100" onload="checkLoginStatus()">
+<body class="bg-gray-100">
     <!-- Navigation -->
     <nav class="nav-container text-white p-4">
         <div class="container mx-auto flex justify-between items-center">
@@ -667,9 +667,7 @@
         </div>
     </div>
 
-    <script type="module">
-        import { saveCake, saveOrder, saveActivity, getAllCakes, getAllOrders, getAllActivities } from './github-api.js';
-
+    <script>
         // Global variable to track edit mode
         let isEditMode = false;
         let editingCakeId = null;
@@ -996,9 +994,9 @@
         });
 
         // Load and display cakes for management
-        async function loadCakes() {
+        function loadCakes() {
             const cakesList = document.getElementById('cakesList');
-            const cakes = await getAllCakes();
+            const cakes = JSON.parse(localStorage.getItem('cakeVariants') || '[]');
             
             // Sort cakes by date added (most recent first)
             cakes.sort((a, b) => {
@@ -1059,8 +1057,8 @@
         }
 
         // Function to handle cake update
-        async function handleCakeUpdate() {
-            const cakes = await getAllCakes();
+        function handleCakeUpdate() {
+            const cakes = JSON.parse(localStorage.getItem('cakeVariants') || '[]');
             const cakeIndex = cakes.findIndex(c => c.id === editingCakeId);
             
             if (cakeIndex === -1) {
@@ -1080,48 +1078,32 @@
             
             if (cakeImageFile) {
                 const reader = new FileReader();
-                reader.onload = async function(event) {
+                reader.onload = function(event) {
                     updatedCake.image = event.target.result;
-                    const success = await saveCake(updatedCake);
-                    if (success) {
-                        await saveActivity({
-                            id: Date.now(),
-                            admin: JSON.parse(localStorage.getItem('loggedInUser')).username,
-                            action: 'updated',
-                            details: `Updated cake variant: ${updatedCake.name} (Price: ${updatedCake.pricePerPound} BDT per pound)`,
-                            timestamp: new Date().toISOString()
-                        });
-
-                        alert('Cake variant updated successfully!');
-                        exitEditMode();
-                        loadCakes();
-                    } else {
-                        alert('Error updating cake in GitHub');
-                    }
-                };
-                reader.readAsDataURL(cakeImageFile);
-            } else {
-                const success = await saveCake(updatedCake);
-                if (success) {
-                    await saveActivity({
-                        id: Date.now(),
-                        admin: JSON.parse(localStorage.getItem('loggedInUser')).username,
-                        action: 'updated',
-                        details: `Updated cake variant: ${updatedCake.name} (Price: ${updatedCake.pricePerPound} BDT per pound)`,
-                        timestamp: new Date().toISOString()
-                    });
-
+                    cakes[cakeIndex] = updatedCake;
+                    localStorage.setItem('cakeVariants', JSON.stringify(cakes));
+                    
+                    logActivity('updated', `Updated cake variant: ${updatedCake.name} (Price: ${updatedCake.pricePerPound} BDT per pound)`);
+                    
                     alert('Cake variant updated successfully!');
                     exitEditMode();
                     loadCakes();
-                } else {
-                    alert('Error updating cake in GitHub');
-                }
+                };
+                reader.readAsDataURL(cakeImageFile);
+            } else {
+                cakes[cakeIndex] = updatedCake;
+                localStorage.setItem('cakeVariants', JSON.stringify(cakes));
+                
+                logActivity('updated', `Updated cake variant: ${updatedCake.name} (Price: ${updatedCake.pricePerPound} BDT per pound)`);
+                
+                alert('Cake variant updated successfully!');
+                exitEditMode();
+                loadCakes();
             }
         }
 
         // Function to handle new cake creation
-        async function handleNewCake() {
+        function handleNewCake() {
             const cakeImageFile = document.getElementById('cakeImage').files[0];
             if (!cakeImageFile) {
                 alert('Please select an image for the cake');
@@ -1129,7 +1111,7 @@
             }
             
             const reader = new FileReader();
-            reader.onload = async function(event) {
+            reader.onload = function(event) {
                 const imageBase64 = event.target.result;
                 
                 const newCake = {
@@ -1142,33 +1124,26 @@
                     lastUpdated: new Date().toISOString()
                 };
 
-                const success = await saveCake(newCake);
-                if (success) {
-                    // Log the activity
-                    await saveActivity({
-                        id: Date.now(),
-                        admin: JSON.parse(localStorage.getItem('loggedInUser')).username,
-                        action: 'created',
-                        details: `Added new cake variant: ${newCake.name} (Price: ${newCake.pricePerPound} BDT per pound)`,
-                        timestamp: new Date().toISOString()
-                    });
+                const cakes = JSON.parse(localStorage.getItem('cakeVariants') || '[]');
+                cakes.push(newCake);
+                localStorage.setItem('cakeVariants', JSON.stringify(cakes));
 
-                    // Show success popup with cake data
-                    showSuccessPopup(newCake);
+                // Log the activity
+                logActivity('created', `Added new cake variant: ${newCake.name} (Price: ${newCake.pricePerPound} BDT per pound)`);
 
-                    loadCakes();
-                    document.getElementById('addCakeForm').reset();
-                } else {
-                    alert('Error saving cake to GitHub');
-                }
+                // Show success popup with cake data
+                showSuccessPopup(newCake);
+
+                loadCakes();
+                document.getElementById('addCakeForm').reset();
             };
             reader.readAsDataURL(cakeImageFile);
         }
 
         // Load and display orders
-        async function loadOrders() {
+        function loadOrders() {
             const ordersList = document.getElementById('ordersList');
-            const orders = await getAllOrders();
+            const orders = JSON.parse(localStorage.getItem('cakeOrders') || '[]');
             const pendingOrders = orders.filter(order => order.status === 'pending');
 
             ordersList.innerHTML = pendingOrders.length === 0 ? 
@@ -1211,7 +1186,6 @@
         }
 
         // Load and display order history
-        async function loadOrderHistory() {
         function loadOrderHistory() {
             const ordersHistoryList = document.getElementById('ordersHistoryList');
             const orders = JSON.parse(localStorage.getItem('cakeOrders') || '[]');
@@ -1265,7 +1239,7 @@
                 localStorage.setItem('cakeOrders', JSON.stringify(orders));
                 
                 // Log the activity with more details
-                const orderDetails = `Order #${orderId} for ${order.name} (${order.flavor} - ${order.size}, Qty: ${order.quantity || 1}, Total: ${order.totalPrice ? order.totalPrice + ' BDT' : 'N/A'})`;
+                const orderDetails = `Order #${orderId} for ${order.name} (${order.flavor} - ${order.pounds} pounds, Qty: ${order.quantity || 1}, Total: ${order.totalPrice ? order.totalPrice + ' BDT' : 'N/A'})`;
                 logActivity(newStatus, orderDetails);
                 
                 loadOrders();
@@ -1285,13 +1259,6 @@
                 if (cakeToDelete) {
                     logActivity('deleted', `Deleted cake variant: ${cakeToDelete.name} (Price: ${cakeToDelete.pricePerPound} BDT per pound)`);
                 }
-                
-                const orders = JSON.parse(localStorage.getItem('cakeOrders') || '[]');
-                const updatedOrders = orders.filter(order => {
-                    const cakes = JSON.parse(localStorage.getItem('cakeVariants') || '[]');
-                    return cakes.some(cake => cake.name === order.flavor);
-                });
-                localStorage.setItem('cakeOrders', JSON.stringify(updatedOrders));
                 
                 alert('Cake variant deleted successfully!');
                 loadCakes();
@@ -1357,6 +1324,11 @@
                 </div>
             `).join('');
         }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            checkLoginStatus();
+        });
     </script>
 </body>
-</html> 
+</html>
