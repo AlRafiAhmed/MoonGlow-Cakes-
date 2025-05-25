@@ -103,35 +103,298 @@
             border: 3px solid #fff;
             box-shadow: 0 5px 15px rgba(236, 72, 153, 0.3);
         }
+        
+        /* Tab Styles */
+        .tab-button {
+            position: relative;
+            padding: 16px 24px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border: 2px solid transparent;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .tab-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(135deg, #fff 0%, #f1f5f9 100%);
+        }
+        
+        .tab-button.active {
+            background: linear-gradient(135deg, #ec4899 0%, #d53f8c 100%);
+            color: white;
+            border-color: #be185d;
+            box-shadow: 0 8px 20px rgba(236, 72, 153, 0.3);
+            transform: translateY(-3px);
+        }
+        
+        .tab-button.active:hover {
+            background: linear-gradient(135deg, #d53f8c 0%, #be185d 100%);
+        }
+        
+        .tab-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .tab-button.active .tab-icon {
+            transform: scale(1.1);
+        }
+        
+        /* Section Styles */
+        .section-card {
+            background: linear-gradient(135deg, #fff 0%, #f8fafc 100%);
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(236, 72, 153, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .section-card:hover {
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+            transform: translateY(-2px);
+        }
+        
+        .section-header {
+            background: linear-gradient(135deg, #ec4899 0%, #d53f8c 100%);
+            color: white;
+            padding: 20px 24px;
+            border-radius: 16px 16px 0 0;
+            border-bottom: 3px solid #be185d;
+        }
+        
+        .section-content {
+            padding: 24px;
+        }
+        
+        /* Animation for section transitions */
+        .section-enter {
+            animation: slideInUp 0.5s ease-out;
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* New Navigation Styles */
+        .nav-link {
+            position: relative;
+            font-size: 1.25rem;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s ease;
+            border-radius: 0.5rem;
+        }
+        .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background-color: white;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+        .nav-link:hover::after {
+            width: 80%;
+        }
+        .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .nav-link.active::after {
+            width: 80%;
+        }
+        .nav-container {
+            background: linear-gradient(135deg, #ec4899 0%, #be185d 100%);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .brand-name {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #ffffff, #f3f4f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .mobile-nav-link {
+            font-size: 1.25rem;
+            font-weight: 600;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s ease;
+            border-radius: 0.5rem;
+            display: block;
+            text-align: center;
+        }
+        .mobile-nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateX(5px);
+        }
+
+        /* Success Popup Styles */
+        .success-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #fff 0%, #f8fafc 100%);
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            border: 2px solid #10b981;
+            z-index: 1000;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+        
+        .popup-header {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 20px 24px;
+            border-radius: 16px 16px 0 0;
+            border-bottom: 3px solid #047857;
+        }
+        
+        .popup-content {
+            padding: 24px;
+        }
+        
+        .popup-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid #e5e7eb;
+        }
+
+        /* Edit Mode Styles */
+        .edit-mode {
+            background: linear-gradient(135deg, #fef3c7 0%, #fbbf24 100%);
+            border: 2px solid #f59e0b;
+        }
+        
+        .edit-indicator {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .cancel-edit-btn {
+            background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .cancel-edit-btn:hover {
+            background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
+            transform: translateY(-1px);
+        }
     </style>
 </head>
 <body class="bg-gray-100" onload="checkLoginStatus()">
     <!-- Navigation -->
-    <nav class="bg-pink-600 text-white p-4">
+    <nav class="nav-container text-white p-4">
         <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-bold">Cake Delights</h1>
+            <h1 class="brand-name">MoonGlow Cakes</h1>
             <!-- Mobile Menu Button -->
-            <button id="mobileMenuBtn" class="mobile-menu md:hidden">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <button id="mobileMenuBtn" class="mobile-menu md:hidden p-2 rounded-lg hover:bg-pink-700 transition-colors duration-300">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                 </svg>
             </button>
             <!-- Desktop Menu -->
-            <div class="desktop-menu space-x-4">
-                <a href="index.html" class="hover:text-pink-200">Home</a>
-                <a href="menu.html" class="hover:text-pink-200">Menu</a>
-                <a href="admin.html" class="hover:text-pink-200">Admin</a>
+            <div class="desktop-menu space-x-6">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="menu.html" class="nav-link">Menu</a>
+                <a href="admin.html" class="nav-link active">Admin</a>
             </div>
         </div>
         <!-- Mobile Menu -->
         <div id="mobileMenu" class="mobile-menu hidden md:hidden mt-4">
             <div class="flex flex-col space-y-2">
-                <a href="index.html" class="hover:text-pink-200 py-2">Home</a>
-                <a href="menu.html" class="hover:text-pink-200 py-2">Menu</a>
-                <a href="admin.html" class="hover:text-pink-200 py-2">Admin</a>
+                <a href="index.html" class="mobile-nav-link">Home</a>
+                <a href="menu.html" class="mobile-nav-link">Menu</a>
+                <a href="admin.html" class="mobile-nav-link">Admin</a>
             </div>
         </div>
     </nav>
+
+    <!-- Success Popup -->
+    <div id="successPopup" class="hidden">
+        <div class="popup-overlay"></div>
+        <div class="success-popup animate__animated animate__zoomIn">
+            <div class="popup-header">
+                <div class="flex items-center space-x-3">
+                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    <h3 class="text-2xl font-bold">Cake Added Successfully!</h3>
+                </div>
+            </div>
+            <div class="popup-content">
+                <div class="text-center mb-4">
+                    <img id="popupCakeImage" src="" alt="Cake Image" class="popup-image mx-auto mb-4">
+                </div>
+                <div class="space-y-3">
+                    <div class="bg-gray-50 p-3 rounded-lg">
+                        <span class="font-semibold text-gray-700">Cake Name:</span>
+                        <span id="popupCakeName" class="ml-2 text-gray-900"></span>
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded-lg">
+                        <span class="font-semibold text-gray-700">Description:</span>
+                        <p id="popupCakeDescription" class="mt-1 text-gray-900"></p>
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded-lg">
+                        <span class="font-semibold text-gray-700">Price per Pound:</span>
+                        <span id="popupCakePrice" class="ml-2 text-gray-900 font-bold text-lg text-green-600"></span>
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded-lg">
+                        <span class="font-semibold text-gray-700">Date Added:</span>
+                        <span id="popupDateAdded" class="ml-2 text-gray-900"></span>
+                    </div>
+                </div>
+                <div class="mt-6 text-center">
+                    <div class="inline-flex items-center px-4 py-2 bg-green-100 text-green-800 rounded-full">
+                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="font-semibold">Successfully added to menu!</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Admin Panel -->
     <div class="container mx-auto py-6 md:py-12 px-4">
@@ -248,8 +511,17 @@
             </div>
 
             <!-- Add New Cake Form -->
-            <div class="bg-white rounded-lg shadow-lg p-4 md:p-8 mb-6 md:mb-8">
-                <h3 class="text-xl md:text-2xl font-bold mb-4 md:mb-6">Add New Cake Variant</h3>
+            <div id="addCakeFormContainer" class="bg-white rounded-lg shadow-lg p-4 md:p-8 mb-6 md:mb-8">
+                <!-- Edit Mode Indicator -->
+                <div id="editModeIndicator" class="edit-indicator hidden">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
+                    </svg>
+                    <span>Edit Mode: Updating existing cake variant</span>
+                    <button id="cancelEditBtn" class="cancel-edit-btn ml-auto">Cancel Edit</button>
+                </div>
+                
+                <h3 class="text-xl md:text-2xl font-bold mb-4 md:mb-6" id="formTitle">Add New Cake Variant</h3>
                 <form id="addCakeForm" class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                     <div>
                         <label class="block text-gray-700 mb-1 md:mb-2" for="cakeName">Cake Name</label>
@@ -262,38 +534,24 @@
                             class="w-full px-3 md:px-4 py-2 border rounded-lg focus:outline-none focus:border-pink-500 text-base" rows="3"></textarea>
                     </div>
                     <div>
-                        <label class="block text-gray-700 mb-1 md:mb-2" for="smallSizePrice">Small Size Price (BDT)</label>
-                        <input type="number" id="smallSizePrice" required step="1"
-                            class="w-full px-3 md:px-4 py-2 border rounded-lg focus:outline-none focus:border-pink-500 text-base">
-                    </div>
-                    <div>
-                        <label class="block text-gray-700 mb-1 md:mb-2" for="mediumSizePrice">Medium Size Price (BDT)</label>
-                        <input type="number" id="mediumSizePrice" required step="1"
-                            class="w-full px-3 md:px-4 py-2 border rounded-lg focus:outline-none focus:border-pink-500 text-base">
-                    </div>
-                    <div>
-                        <label class="block text-gray-700 mb-1 md:mb-2" for="largeSizePrice">Large Size Price (BDT)</label>
-                        <input type="number" id="largeSizePrice" required step="1"
+                        <label class="block text-gray-700 mb-1 md:mb-2" for="pricePerPound">Price per Pound (BDT)</label>
+                        <input type="number" id="pricePerPound" required step="1"
                             class="w-full px-3 md:px-4 py-2 border rounded-lg focus:outline-none focus:border-pink-500 text-base">
                     </div>
                     <div class="md:col-span-2">
                         <label class="block text-gray-700 mb-1 md:mb-2" for="cakeImage">Cake Image</label>
-                        <input type="file" id="cakeImage" accept="image/*" required
+                        <input type="file" id="cakeImage" accept="image/*"
                             class="w-full px-3 md:px-4 py-2 border rounded-lg focus:outline-none focus:border-pink-500 text-base">
-                        <p class="text-sm text-gray-500 mt-1">Image will be displayed in Featured Cakes and Our Cake Menu</p>
+                        <p class="text-sm text-gray-500 mt-1" id="imageHelpText">Image will be displayed in Featured Cakes and Our Cake Menu</p>
+                        
+                        <!-- Current Image Preview for Edit Mode -->
+                        <div id="currentImagePreview" class="hidden mt-3">
+                            <p class="text-sm text-gray-600 mb-2">Current Image:</p>
+                            <img id="currentImage" src="" alt="Current cake image" class="w-32 h-32 object-cover rounded-lg border-2 border-gray-200">
+                        </div>
                     </div>
                     <div class="md:col-span-2">
-                        <label class="block text-gray-700 mb-1 md:mb-2" for="cakeCategory">Category</label>
-                        <select id="cakeCategory" required
-                            class="w-full px-3 md:px-4 py-2 border rounded-lg focus:outline-none focus:border-pink-500 text-base">
-                            <option value="">Select Category</option>
-                            <option value="featured">Featured Cake</option>
-                            <option value="regular">Regular Menu</option>
-                            <option value="both">Both</option>
-                        </select>
-                    </div>
-                    <div class="md:col-span-2">
-                        <button type="submit"
+                        <button type="submit" id="submitBtn"
                             class="w-full bg-pink-600 text-white py-2 md:py-3 rounded-lg hover:bg-pink-700 transition duration-300 text-base md:text-lg">
                             Add Cake Variant
                         </button>
@@ -302,50 +560,120 @@
             </div>
 
             <!-- Dashboard Tabs -->
-            <div class="mb-6">
-                <div class="flex flex-wrap border-b border-gray-200">
-                    <button id="recentOrdersTab" class="px-4 py-2 text-pink-600 border-b-2 border-pink-600 font-medium">Recent Orders</button>
-                    <button id="orderHistoryTab" class="px-4 py-2 text-gray-500 hover:text-pink-600 font-medium">Order History</button>
-                    <button id="manageCakesTab" class="px-4 py-2 text-gray-500 hover:text-pink-600 font-medium">Manage Cakes</button>
-                    <button id="activityLogTab" class="px-4 py-2 text-gray-500 hover:text-pink-600 font-medium">Activity Log</button>
+            <div class="mb-8">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <button id="recentOrdersTab" class="tab-button active text-center">
+                        <div class="flex flex-col items-center space-y-2">
+                            <svg class="w-8 h-8 tab-icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="font-semibold text-sm">Recent Orders</span>
+                        </div>
+                    </button>
+                    <button id="orderHistoryTab" class="tab-button text-center">
+                        <div class="flex flex-col items-center space-y-2">
+                            <svg class="w-8 h-8 tab-icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="font-semibold text-sm">Order History</span>
+                        </div>
+                    </button>
+                    <button id="manageCakesTab" class="tab-button text-center">
+                        <div class="flex flex-col items-center space-y-2">
+                            <svg class="w-8 h-8 tab-icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10 2a1 1 0 00-1 1v1a1 1 0 002 0V3a1 1 0 00-1-1zM4 4h3a3 3 0 006 0h3a2 2 0 012 2v9a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zm2.5 7a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm2.45 4a2.5 2.5 0 10-4.9 0h4.9zM12 9a1 1 0 100 2h3a1 1 0 100-2h-3zm-1 4a1 1 0 011-1h2a1 1 0 110 2h-2a1 1 0 01-1-1z"></path>
+                            </svg>
+                            <span class="font-semibold text-sm">Manage Cakes</span>
+                        </div>
+                    </button>
+                    <button id="activityLogTab" class="tab-button text-center">
+                        <div class="flex flex-col items-center space-y-2">
+                            <svg class="w-8 h-8 tab-icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="font-semibold text-sm">Activity Log</span>
+                        </div>
+                    </button>
                 </div>
             </div>
 
-            <!-- Activity Log Section -->
-            <div id="activityLogSection" class="bg-white rounded-lg shadow-lg p-4 md:p-8 hidden">
-                <h3 class="text-xl md:text-2xl font-bold mb-4 md:mb-6">Admin Activity Log</h3>
-                <div id="activityLogList" class="space-y-4">
-                    <!-- Activity logs will be dynamically added here -->
+            <!-- Recent Orders Section -->
+            <div id="recentOrdersSection" class="section-card section-enter">
+                <div class="section-header">
+                    <div class="flex items-center space-x-3">
+                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd"></path>
+                        </svg>
+                        <h3 class="text-2xl font-bold">Recent Orders</h3>
+                    </div>
+                </div>
+                <div class="section-content">
+                    <div id="ordersList" class="space-y-4">
+                        <!-- Orders will be dynamically added here -->
+                    </div>
                 </div>
             </div>
 
-            <!-- Orders List -->
-            <div id="recentOrdersSection" class="bg-white rounded-lg shadow-lg p-4 md:p-8">
-                <h3 class="text-xl md:text-2xl font-bold mb-4 md:mb-6">Recent Orders</h3>
-                <div id="ordersList" class="space-y-4">
-                    <!-- Orders will be dynamically added here -->
+            <!-- Order History Section -->
+            <div id="orderHistorySection" class="section-card hidden">
+                <div class="section-header">
+                    <div class="flex items-center space-x-3">
+                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+                        </svg>
+                        <h3 class="text-2xl font-bold">Order History</h3>
+                    </div>
                 </div>
-            </div>
-
-            <!-- Order History -->
-            <div id="orderHistorySection" class="bg-white rounded-lg shadow-lg p-4 md:p-8 hidden">
-                <h3 class="text-xl md:text-2xl font-bold mb-4 md:mb-6">Order History</h3>
-                <div id="ordersHistoryList" class="space-y-4">
-                    <!-- Order history will be dynamically added here -->
+                <div class="section-content">
+                    <div id="ordersHistoryList" class="space-y-4">
+                        <!-- Order history will be dynamically added here -->
+                    </div>
                 </div>
             </div>
 
             <!-- Manage Cakes Section -->
-            <div id="manageCakesSection" class="bg-white rounded-lg shadow-lg p-4 md:p-8 hidden">
-                <h3 class="text-xl md:text-2xl font-bold mb-4 md:mb-6">Manage Cake Variants</h3>
-                <div id="cakesList" class="space-y-4">
-                    <!-- Cakes will be dynamically added here -->
+            <div id="manageCakesSection" class="section-card hidden">
+                <div class="section-header">
+                    <div class="flex items-center space-x-3">
+                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10 2a1 1 0 00-1 1v1a1 1 0 002 0V3a1 1 0 00-1-1zM4 4h3a3 3 0 006 0h3a2 2 0 012 2v9a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zm2.5 7a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm2.45 4a2.5 2.5 0 10-4.9 0h4.9zM12 9a1 1 0 100 2h3a1 1 0 100-2h-3zm-1 4a1 1 0 011-1h2a1 1 0 110 2h-2a1 1 0 01-1-1z"></path>
+                        </svg>
+                        <h3 class="text-2xl font-bold">Manage Cake Variants</h3>
+                    </div>
+                </div>
+                <div class="section-content">
+                    <div id="cakesList" class="space-y-4">
+                        <!-- Cakes will be dynamically added here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Activity Log Section -->
+            <div id="activityLogSection" class="section-card hidden">
+                <div class="section-header">
+                    <div class="flex items-center space-x-3">
+                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+                        </svg>
+                        <h3 class="text-2xl font-bold">Admin Activity Log</h3>
+                    </div>
+                </div>
+                <div class="section-content">
+                    <div id="activityLogList" class="space-y-4">
+                        <!-- Activity logs will be dynamically added here -->
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <script>
+    <script type="module">
+        import { saveCake, saveOrder, saveActivity, getAllCakes, getAllOrders, getAllActivities } from './github-api.js';
+
+        // Global variable to track edit mode
+        let isEditMode = false;
+        let editingCakeId = null;
+
         // Check login status on page load
         function checkLoginStatus() {
             const loggedInUser = localStorage.getItem('loggedInUser');
@@ -393,6 +721,96 @@
             loadOrders();
             loadOrderHistory();
             loadCakes();
+        }
+
+        // Function to show success popup
+        function showSuccessPopup(cakeData) {
+            // Populate popup with cake data
+            document.getElementById('popupCakeImage').src = cakeData.image;
+            document.getElementById('popupCakeName').textContent = cakeData.name;
+            document.getElementById('popupCakeDescription').textContent = cakeData.description;
+            document.getElementById('popupCakePrice').textContent = cakeData.pricePerPound + ' BDT';
+            document.getElementById('popupDateAdded').textContent = new Date(cakeData.dateAdded).toLocaleString();
+            
+            // Show popup
+            const popup = document.getElementById('successPopup');
+            popup.classList.remove('hidden');
+            
+            // Auto-hide popup after 2 seconds
+            setTimeout(() => {
+                popup.classList.add('animate__fadeOut');
+                setTimeout(() => {
+                    popup.classList.add('hidden');
+                    popup.classList.remove('animate__fadeOut');
+                }, 500);
+            }, 2000);
+        }
+
+        // Function to enter edit mode
+        function enterEditMode(cake) {
+            isEditMode = true;
+            editingCakeId = cake.id;
+            
+            // Update form container styling
+            const formContainer = document.getElementById('addCakeFormContainer');
+            formContainer.classList.add('edit-mode');
+            
+            // Show edit mode indicator
+            const editIndicator = document.getElementById('editModeIndicator');
+            editIndicator.classList.remove('hidden');
+            
+            // Update form title and button
+            document.getElementById('formTitle').textContent = 'Edit Cake Variant';
+            document.getElementById('submitBtn').textContent = 'Update Cake Variant';
+            
+            // Populate form with existing data
+            document.getElementById('cakeName').value = cake.name;
+            document.getElementById('cakeDescription').value = cake.description;
+            document.getElementById('pricePerPound').value = cake.pricePerPound;
+            
+            // Show current image preview
+            const currentImagePreview = document.getElementById('currentImagePreview');
+            const currentImage = document.getElementById('currentImage');
+            currentImage.src = cake.image;
+            currentImagePreview.classList.remove('hidden');
+            
+            // Update image field to not be required and update help text
+            const imageField = document.getElementById('cakeImage');
+            imageField.removeAttribute('required');
+            document.getElementById('imageHelpText').textContent = 'Leave empty to keep current image, or select a new image to replace it';
+            
+            // Scroll to form
+            formContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Function to exit edit mode
+        function exitEditMode() {
+            isEditMode = false;
+            editingCakeId = null;
+            
+            // Reset form container styling
+            const formContainer = document.getElementById('addCakeFormContainer');
+            formContainer.classList.remove('edit-mode');
+            
+            // Hide edit mode indicator
+            const editIndicator = document.getElementById('editModeIndicator');
+            editIndicator.classList.add('hidden');
+            
+            // Reset form title and button
+            document.getElementById('formTitle').textContent = 'Add New Cake Variant';
+            document.getElementById('submitBtn').textContent = 'Add Cake Variant';
+            
+            // Hide current image preview
+            const currentImagePreview = document.getElementById('currentImagePreview');
+            currentImagePreview.classList.add('hidden');
+            
+            // Reset image field to be required and reset help text
+            const imageField = document.getElementById('cakeImage');
+            imageField.setAttribute('required', 'required');
+            document.getElementById('imageHelpText').textContent = 'Image will be displayed in Featured Cakes and Our Cake Menu';
+            
+            // Clear form
+            document.getElementById('addCakeForm').reset();
         }
 
         // Mobile menu toggle
@@ -451,6 +869,11 @@
             }, 500);
         });
 
+        // Cancel edit button
+        document.getElementById('cancelEditBtn').addEventListener('click', function() {
+            exitEditMode();
+        });
+
         // Login form handler
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -490,6 +913,11 @@
             // Remove the logged in user from localStorage
             localStorage.removeItem('loggedInUser');
             
+            // Exit edit mode if active
+            if (isEditMode) {
+                exitEditMode();
+            }
+            
             document.getElementById('adminDashboard').classList.add('animate__animated', 'animate__fadeOutDown');
             setTimeout(() => {
                 document.getElementById('adminDashboard').classList.add('hidden');
@@ -500,58 +928,57 @@
             }, 500);
         });
 
-        // Tab switching
+        // Tab switching function
+        function switchTab(activeTabId, activeSectionId) {
+            // Exit edit mode when switching tabs
+            if (isEditMode) {
+                exitEditMode();
+            }
+            
+            // Hide all sections
+            const sections = ['recentOrdersSection', 'orderHistorySection', 'manageCakesSection', 'activityLogSection'];
+            sections.forEach(sectionId => {
+                document.getElementById(sectionId).classList.add('hidden');
+            });
+            
+            // Remove active class from all tabs
+            const tabs = ['recentOrdersTab', 'orderHistoryTab', 'manageCakesTab', 'activityLogTab'];
+            tabs.forEach(tabId => {
+                document.getElementById(tabId).classList.remove('active');
+            });
+            
+            // Show active section with animation
+            const activeSection = document.getElementById(activeSectionId);
+            activeSection.classList.remove('hidden');
+            activeSection.classList.add('section-enter');
+            
+            // Add active class to clicked tab
+            document.getElementById(activeTabId).classList.add('active');
+            
+            // Remove animation class after animation completes
+            setTimeout(() => {
+                activeSection.classList.remove('section-enter');
+            }, 500);
+        }
+
+        // Tab event listeners
         document.getElementById('recentOrdersTab').addEventListener('click', function() {
-            document.getElementById('recentOrdersSection').classList.remove('hidden');
-            document.getElementById('orderHistorySection').classList.add('hidden');
-            document.getElementById('manageCakesSection').classList.add('hidden');
-            this.classList.add('text-pink-600', 'border-b-2', 'border-pink-600');
-            this.classList.remove('text-gray-500');
-            document.getElementById('orderHistoryTab').classList.remove('text-pink-600', 'border-b-2', 'border-pink-600');
-            document.getElementById('orderHistoryTab').classList.add('text-gray-500');
-            document.getElementById('manageCakesTab').classList.remove('text-pink-600', 'border-b-2', 'border-pink-600');
-            document.getElementById('manageCakesTab').classList.add('text-gray-500');
+            switchTab('recentOrdersTab', 'recentOrdersSection');
+            loadOrders();
         });
 
         document.getElementById('orderHistoryTab').addEventListener('click', function() {
-            document.getElementById('recentOrdersSection').classList.add('hidden');
-            document.getElementById('orderHistorySection').classList.remove('hidden');
-            document.getElementById('manageCakesSection').classList.add('hidden');
-            this.classList.add('text-pink-600', 'border-b-2', 'border-pink-600');
-            this.classList.remove('text-gray-500');
-            document.getElementById('recentOrdersTab').classList.remove('text-pink-600', 'border-b-2', 'border-pink-600');
-            document.getElementById('recentOrdersTab').classList.add('text-gray-500');
-            document.getElementById('manageCakesTab').classList.remove('text-pink-600', 'border-b-2', 'border-pink-600');
-            document.getElementById('manageCakesTab').classList.add('text-gray-500');
+            switchTab('orderHistoryTab', 'orderHistorySection');
             loadOrderHistory();
         });
 
         document.getElementById('manageCakesTab').addEventListener('click', function() {
-            document.getElementById('recentOrdersSection').classList.add('hidden');
-            document.getElementById('orderHistorySection').classList.add('hidden');
-            document.getElementById('manageCakesSection').classList.remove('hidden');
-            this.classList.add('text-pink-600', 'border-b-2', 'border-pink-600');
-            this.classList.remove('text-gray-500');
-            document.getElementById('recentOrdersTab').classList.remove('text-pink-600', 'border-b-2', 'border-pink-600');
-            document.getElementById('recentOrdersTab').classList.add('text-gray-500');
-            document.getElementById('orderHistoryTab').classList.remove('text-pink-600', 'border-b-2', 'border-pink-600');
-            document.getElementById('orderHistoryTab').classList.add('text-gray-500');
+            switchTab('manageCakesTab', 'manageCakesSection');
             loadCakes();
         });
 
         document.getElementById('activityLogTab').addEventListener('click', function() {
-            document.getElementById('recentOrdersSection').classList.add('hidden');
-            document.getElementById('orderHistorySection').classList.add('hidden');
-            document.getElementById('manageCakesSection').classList.add('hidden');
-            document.getElementById('activityLogSection').classList.remove('hidden');
-            this.classList.add('text-pink-600', 'border-b-2', 'border-pink-600');
-            this.classList.remove('text-gray-500');
-            document.getElementById('recentOrdersTab').classList.remove('text-pink-600', 'border-b-2', 'border-pink-600');
-            document.getElementById('recentOrdersTab').classList.add('text-gray-500');
-            document.getElementById('orderHistoryTab').classList.remove('text-pink-600', 'border-b-2', 'border-pink-600');
-            document.getElementById('orderHistoryTab').classList.add('text-gray-500');
-            document.getElementById('manageCakesTab').classList.remove('text-pink-600', 'border-b-2', 'border-pink-600');
-            document.getElementById('manageCakesTab').classList.add('text-gray-500');
+            switchTab('activityLogTab', 'activityLogSection');
             loadActivityLog();
         });
 
@@ -559,6 +986,142 @@
         document.getElementById('addCakeForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
+            if (isEditMode) {
+                // Handle update
+                handleCakeUpdate();
+            } else {
+                // Handle new cake creation
+                handleNewCake();
+            }
+        });
+
+        // Load and display cakes for management
+        async function loadCakes() {
+            const cakesList = document.getElementById('cakesList');
+            const cakes = await getAllCakes();
+            
+            // Sort cakes by date added (most recent first)
+            cakes.sort((a, b) => {
+                const dateA = new Date(a.dateAdded || 0).getTime();
+                const dateB = new Date(b.dateAdded || 0).getTime();
+                return dateB - dateA;
+            });
+
+            cakesList.innerHTML = cakes.length === 0 ? 
+                '<p class="text-gray-500 text-center py-4">No cakes added yet</p>' : 
+                cakes.map(cake => `
+                <div class="order-card bg-gray-50 p-4 md:p-6 rounded-lg border">
+                    <div class="flex flex-col md:flex-row gap-4">
+                        <div class="w-full md:w-1/4">
+                            <img src="${cake.image}" alt="${cake.name}" class="w-full h-48 object-cover rounded-lg">
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h4 class="text-lg font-semibold">${cake.name}</h4>
+                                    <p class="text-gray-600 mt-1">${cake.description}</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-lg font-bold text-pink-600">${cake.pricePerPound} BDT</p>
+                                    <p class="text-sm text-gray-500">per pound</p>
+                                </div>
+                            </div>
+                            <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="bg-white p-3 rounded-lg border">
+                                    <p class="text-sm text-gray-500">Added on</p>
+                                    <p class="font-medium">${new Date(cake.dateAdded).toLocaleString()}</p>
+                                </div>
+                                <div class="bg-white p-3 rounded-lg border">
+                                    <p class="text-sm text-gray-500">Last Updated</p>
+                                    <p class="font-medium">${cake.lastUpdated ? new Date(cake.lastUpdated).toLocaleString() : 'Never'}</p>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex flex-wrap gap-2">
+                                <button onclick="editCake(${cake.id})"
+                                    class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-300 flex items-center gap-2">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                    </svg>
+                                    Edit
+                                </button>
+                                <button onclick="deleteCake(${cake.id})"
+                                    class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition duration-300 flex items-center gap-2">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                    </svg>
+                                    Delete
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Function to handle cake update
+        async function handleCakeUpdate() {
+            const cakes = await getAllCakes();
+            const cakeIndex = cakes.findIndex(c => c.id === editingCakeId);
+            
+            if (cakeIndex === -1) {
+                alert('Cake not found!');
+                return;
+            }
+
+            const updatedCake = {
+                ...cakes[cakeIndex],
+                name: document.getElementById('cakeName').value,
+                description: document.getElementById('cakeDescription').value,
+                pricePerPound: document.getElementById('pricePerPound').value,
+                lastUpdated: new Date().toISOString()
+            };
+
+            const cakeImageFile = document.getElementById('cakeImage').files[0];
+            
+            if (cakeImageFile) {
+                const reader = new FileReader();
+                reader.onload = async function(event) {
+                    updatedCake.image = event.target.result;
+                    const success = await saveCake(updatedCake);
+                    if (success) {
+                        await saveActivity({
+                            id: Date.now(),
+                            admin: JSON.parse(localStorage.getItem('loggedInUser')).username,
+                            action: 'updated',
+                            details: `Updated cake variant: ${updatedCake.name} (Price: ${updatedCake.pricePerPound} BDT per pound)`,
+                            timestamp: new Date().toISOString()
+                        });
+
+                        alert('Cake variant updated successfully!');
+                        exitEditMode();
+                        loadCakes();
+                    } else {
+                        alert('Error updating cake in GitHub');
+                    }
+                };
+                reader.readAsDataURL(cakeImageFile);
+            } else {
+                const success = await saveCake(updatedCake);
+                if (success) {
+                    await saveActivity({
+                        id: Date.now(),
+                        admin: JSON.parse(localStorage.getItem('loggedInUser')).username,
+                        action: 'updated',
+                        details: `Updated cake variant: ${updatedCake.name} (Price: ${updatedCake.pricePerPound} BDT per pound)`,
+                        timestamp: new Date().toISOString()
+                    });
+
+                    alert('Cake variant updated successfully!');
+                    exitEditMode();
+                    loadCakes();
+                } else {
+                    alert('Error updating cake in GitHub');
+                }
+            }
+        }
+
+        // Function to handle new cake creation
+        async function handleNewCake() {
             const cakeImageFile = document.getElementById('cakeImage').files[0];
             if (!cakeImageFile) {
                 alert('Please select an image for the cake');
@@ -566,41 +1129,46 @@
             }
             
             const reader = new FileReader();
-            reader.onload = function(event) {
+            reader.onload = async function(event) {
                 const imageBase64 = event.target.result;
                 
                 const newCake = {
                     id: Date.now(),
                     name: document.getElementById('cakeName').value,
                     description: document.getElementById('cakeDescription').value,
-                    prices: {
-                        small: document.getElementById('smallSizePrice').value,
-                        medium: document.getElementById('mediumSizePrice').value,
-                        large: document.getElementById('largeSizePrice').value
-                    },
+                    pricePerPound: document.getElementById('pricePerPound').value,
                     image: imageBase64,
-                    category: document.getElementById('cakeCategory').value,
-                    dateAdded: new Date().toISOString()
+                    dateAdded: new Date().toISOString(),
+                    lastUpdated: new Date().toISOString()
                 };
 
-                const cakes = JSON.parse(localStorage.getItem('cakeVariants') || '[]');
-                cakes.push(newCake);
-                localStorage.setItem('cakeVariants', JSON.stringify(cakes));
+                const success = await saveCake(newCake);
+                if (success) {
+                    // Log the activity
+                    await saveActivity({
+                        id: Date.now(),
+                        admin: JSON.parse(localStorage.getItem('loggedInUser')).username,
+                        action: 'created',
+                        details: `Added new cake variant: ${newCake.name} (Price: ${newCake.pricePerPound} BDT per pound)`,
+                        timestamp: new Date().toISOString()
+                    });
 
-                // Log the activity
-                logActivity('created', `Added new cake variant: ${newCake.name}`);
+                    // Show success popup with cake data
+                    showSuccessPopup(newCake);
 
-                alert('New cake variant added successfully!');
-                loadCakes();
-                this.reset();
+                    loadCakes();
+                    document.getElementById('addCakeForm').reset();
+                } else {
+                    alert('Error saving cake to GitHub');
+                }
             };
             reader.readAsDataURL(cakeImageFile);
-        });
+        }
 
         // Load and display orders
-        function loadOrders() {
+        async function loadOrders() {
             const ordersList = document.getElementById('ordersList');
-            const orders = JSON.parse(localStorage.getItem('cakeOrders') || '[]');
+            const orders = await getAllOrders();
             const pendingOrders = orders.filter(order => order.status === 'pending');
 
             ordersList.innerHTML = pendingOrders.length === 0 ? 
@@ -612,7 +1180,9 @@
                             <h4 class="text-lg font-semibold">${order.name}</h4>
                             <p class="text-gray-600">Phone: ${order.phone}</p>
                             <p class="text-gray-600">Address: ${order.address}</p>
-                            <p class="text-gray-600">Cake: ${order.flavor} - ${order.size}</p>
+                            <p class="text-gray-600">Cake: ${order.flavor} - ${order.pounds} Pounds</p>
+                            <p class="text-gray-600">Quantity: ${order.quantity || 1} ${order.quantity > 1 ? 'cakes' : 'cake'}</p>
+                            <p class="text-gray-600">Total Price: ${order.totalPrice ? order.totalPrice + ' BDT' : 'N/A'}</p>
                             ${order.message ? `<p class="text-gray-600">Message: ${order.message}</p>` : ''}
                             <p class="text-sm text-gray-500">Ordered on: ${new Date(order.date).toLocaleString()}</p>
                         </div>
@@ -641,6 +1211,7 @@
         }
 
         // Load and display order history
+        async function loadOrderHistory() {
         function loadOrderHistory() {
             const ordersHistoryList = document.getElementById('ordersHistoryList');
             const orders = JSON.parse(localStorage.getItem('cakeOrders') || '[]');
@@ -662,7 +1233,9 @@
                             <h4 class="text-lg font-semibold">${order.name}</h4>
                             <p class="text-gray-600">Phone: ${order.phone}</p>
                             <p class="text-gray-600">Address: ${order.address}</p>
-                            <p class="text-gray-600">Cake: ${order.flavor} - ${order.size}</p>
+                            <p class="text-gray-600">Cake: ${order.flavor} - ${order.pounds} Pounds</p>
+                            <p class="text-gray-600">Quantity: ${order.quantity || 1} ${order.quantity > 1 ? 'cakes' : 'cake'}</p>
+                            <p class="text-gray-600">Total Price: ${order.totalPrice ? order.totalPrice + ' BDT' : 'N/A'}</p>
                             ${order.message ? `<p class="text-gray-600">Message: ${order.message}</p>` : ''}
                             <p class="text-sm text-gray-500">Ordered on: ${new Date(order.date).toLocaleString()}</p>
                             ${order.statusUpdateTime ? 
@@ -680,56 +1253,6 @@
             `).join('');
         }
 
-        // Load and display cakes for management
-        function loadCakes() {
-            const cakesList = document.getElementById('cakesList');
-            const cakes = JSON.parse(localStorage.getItem('cakeVariants') || '[]');
-            
-            // Sort cakes by date added (most recent first)
-            cakes.sort((a, b) => {
-                const dateA = new Date(a.dateAdded || 0).getTime();
-                const dateB = new Date(b.dateAdded || 0).getTime();
-                return dateB - dateA;
-            });
-
-            cakesList.innerHTML = cakes.length === 0 ? 
-                '<p class="text-gray-500 text-center py-4">No cakes added yet</p>' : 
-                cakes.map(cake => `
-                <div class="order-card bg-gray-50 p-4 md:p-6 rounded-lg border">
-                    <div class="flex flex-col md:flex-row gap-4">
-                        <div class="w-full md:w-1/4">
-                            <img src="${cake.image}" alt="${cake.name}" class="w-full h-48 object-cover rounded-lg">
-                        </div>
-                        <div class="flex-1">
-                            <h4 class="text-lg font-semibold">${cake.name}</h4>
-                            <p class="text-gray-600">${cake.description}</p>
-                            <div class="mt-2 grid grid-cols-3 gap-2">
-                                <p class="text-gray-600">Small: ${cake.prices.small} BDT</p>
-                                <p class="text-gray-600">Medium: ${cake.prices.medium} BDT</p>
-                                <p class="text-gray-600">Large: ${cake.prices.large} BDT</p>
-                            </div>
-                            <p class="text-sm text-gray-500 mt-2">Category: ${
-                                cake.category === 'featured' ? 'Featured Cake' : 
-                                cake.category === 'regular' ? 'Regular Menu' : 
-                                'Featured & Regular Menu'
-                            }</p>
-                            <p class="text-sm text-gray-500">Added on: ${new Date(cake.dateAdded).toLocaleString()}</p>
-                            <div class="mt-4 flex flex-wrap gap-2">
-                                <button onclick="editCake(${cake.id})"
-                                    class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-                                    Edit
-                                </button>
-                                <button onclick="deleteCake(${cake.id})"
-                                    class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
-                                    Delete
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
         // Update order status
         function updateOrderStatus(orderId, newStatus) {
             const orders = JSON.parse(localStorage.getItem('cakeOrders') || '[]');
@@ -741,8 +1264,9 @@
                 orders[orderIndex].statusUpdateTime = new Date().toISOString();
                 localStorage.setItem('cakeOrders', JSON.stringify(orders));
                 
-                // Log the activity
-                logActivity(newStatus, `Order #${orderId} for ${order.name} (${order.flavor} - ${order.size})`);
+                // Log the activity with more details
+                const orderDetails = `Order #${orderId} for ${order.name} (${order.flavor} - ${order.size}, Qty: ${order.quantity || 1}, Total: ${order.totalPrice ? order.totalPrice + ' BDT' : 'N/A'})`;
+                logActivity(newStatus, orderDetails);
                 
                 loadOrders();
                 loadOrderHistory();
@@ -759,7 +1283,7 @@
                 
                 // Log the activity
                 if (cakeToDelete) {
-                    logActivity('deleted', `Deleted cake variant: ${cakeToDelete.name}`);
+                    logActivity('deleted', `Deleted cake variant: ${cakeToDelete.name} (Price: ${cakeToDelete.pricePerPound} BDT per pound)`);
                 }
                 
                 const orders = JSON.parse(localStorage.getItem('cakeOrders') || '[]');
@@ -780,91 +1304,7 @@
             const cake = cakes.find(c => c.id === cakeId);
             
             if (cake) {
-                // Populate the form with cake data
-                document.getElementById('cakeName').value = cake.name;
-                document.getElementById('cakeDescription').value = cake.description;
-                document.getElementById('smallSizePrice').value = cake.prices.small;
-                document.getElementById('mediumSizePrice').value = cake.prices.medium;
-                document.getElementById('largeSizePrice').value = cake.prices.large;
-                document.getElementById('cakeCategory').value = cake.category;
-                
-                // Change the form submission to update instead of add
-                const form = document.getElementById('addCakeForm');
-                const originalSubmitHandler = form.onsubmit;
-                
-                // Scroll to the form
-                form.scrollIntoView({ behavior: 'smooth' });
-                
-                // Change button text
-                form.querySelector('button[type="submit"]').textContent = 'Update Cake Variant';
-                
-                // Override the submit handler temporarily
-                form.onsubmit = function(e) {
-                    e.preventDefault();
-                    
-                    // Get the updated data
-                    const updatedCake = {
-                        ...cake, // Keep all original data including id
-                        name: document.getElementById('cakeName').value,
-                        description: document.getElementById('cakeDescription').value,
-                        prices: {
-                            small: document.getElementById('smallSizePrice').value,
-                            medium: document.getElementById('mediumSizePrice').value,
-                            large: document.getElementById('largeSizePrice').value
-                        },
-                        category: document.getElementById('cakeCategory').value,
-                        dateAdded: cake.dateAdded // Keep the original date
-                    };
-                    
-                    // Update image only if a new one is selected
-                    const cakeImageFile = document.getElementById('cakeImage').files[0];
-                    if (cakeImageFile) {
-                        const reader = new FileReader();
-                        reader.onload = function(event) {
-                            updatedCake.image = event.target.result;
-                            updateCakeInStorage(updatedCake);
-                        };
-                        reader.readAsDataURL(cakeImageFile);
-                    } else {
-                        // Keep the original image if no new one is selected
-                        updateCakeInStorage(updatedCake);
-                    }
-                    
-                    // Reset form and restore original handler
-                    form.reset();
-                    form.querySelector('button[type="submit"]').textContent = 'Add Cake Variant';
-                    form.onsubmit = originalSubmitHandler;
-                };
-            }
-        }
-        
-        // Helper function to update cake in storage
-        function updateCakeInStorage(updatedCake) {
-            const cakes = JSON.parse(localStorage.getItem('cakeVariants') || '[]');
-            const index = cakes.findIndex(c => c.id === updatedCake.id);
-            
-            if (index !== -1) {
-                const oldCake = cakes[index];
-                cakes[index] = updatedCake;
-                localStorage.setItem('cakeVariants', JSON.stringify(cakes));
-
-                // Log the activity
-                logActivity('updated', `Updated cake variant: ${updatedCake.name}`);
-
-                const orders = JSON.parse(localStorage.getItem('cakeOrders') || '[]');
-                const updatedOrders = orders.map(order => {
-                    if (order.flavor === updatedCake.name) {
-                        return {
-                            ...order,
-                            flavor: updatedCake.name
-                        };
-                    }
-                    return order;
-                });
-                localStorage.setItem('cakeOrders', JSON.stringify(updatedOrders));
-
-                alert('Cake variant updated successfully!');
-                loadCakes();
+                enterEditMode(cake);
             }
         }
 

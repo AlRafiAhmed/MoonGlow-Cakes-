@@ -23,6 +23,84 @@
             .mobile-menu.active {
                 display: block;
             }
+            /* Mobile Responsive Styles */
+            .brand-name {
+                font-size: 1.5rem !important;
+            }
+            .nav-link {
+                font-size: 1rem !important;
+                padding: 0.4rem 0.8rem !important;
+            }
+            .mobile-nav-link {
+                font-size: 1rem !important;
+                padding: 0.6rem 0.8rem !important;
+            }
+            .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            h2 {
+                font-size: 1.5rem !important;
+            }
+            h3 {
+                font-size: 1.2rem !important;
+            }
+            p {
+                font-size: 0.9rem !important;
+            }
+            label {
+                font-size: 0.9rem !important;
+            }
+            .form-input {
+                font-size: 0.9rem !important;
+                padding: 0.5rem !important;
+            }
+            select {
+                font-size: 0.9rem !important;
+                padding: 0.5rem !important;
+            }
+            textarea {
+                font-size: 0.9rem !important;
+                padding: 0.5rem !important;
+            }
+            button {
+                font-size: 0.9rem !important;
+                padding: 0.5rem !important;
+            }
+            .modal-content {
+                margin: 5% auto;
+                padding: 1rem;
+                width: 90%;
+            }
+            .modal-content h3 {
+                font-size: 1.2rem !important;
+            }
+            .modal-content p {
+                font-size: 0.85rem !important;
+            }
+            #cakePreview {
+                padding: 0.75rem !important;
+            }
+            #cakePreview h3 {
+                font-size: 1.1rem !important;
+            }
+            #cakePreview p {
+                font-size: 0.85rem !important;
+            }
+            #cakePreview img {
+                width: 24px !important;
+                height: 24px !important;
+            }
+            .success-popup {
+                max-width: 90% !important;
+                padding: 1rem !important;
+            }
+            .success-popup h3 {
+                font-size: 1.2rem !important;
+            }
+            .success-popup p {
+                font-size: 0.85rem !important;
+            }
         }
         .modal {
             display: none;
@@ -40,6 +118,55 @@
             padding: 20px;
             border-radius: 10px;
             max-width: 500px;
+        }
+        .success-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            z-index: 2000;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            animation: slideIn 0.3s ease-out;
+        }
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -60%);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+        .success-popup h3 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .success-popup .order-details {
+            background: rgba(255,255,255,0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            text-align: left;
+        }
+        .success-popup .order-details p {
+            margin: 0.3rem 0;
+            font-size: 0.9rem;
+        }
+        .success-popup .order-details strong {
+            color: #d1fae5;
         }
     </style>
 </head>
@@ -101,19 +228,27 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-gray-700 mb-1 md:mb-2" for="size">Cake Size</label>
+                        <label class="block text-gray-700 mb-1 md:mb-2" for="size">Cake Size (Pounds)</label>
                         <select id="size" name="size" required
-                            class="form-input w-full px-3 md:px-4 py-2 border rounded-lg focus:outline-none text-base">
-                            <option value="">Select a size</option>
-                            <option value="small">Small</option>
-                            <option value="medium">Medium</option>
-                            <option value="large">Large</option>
+                            class="form-input w-full px-3 md:px-4 py-2 border rounded-lg focus:outline-none focus:border-pink-500 text-base">
+                            <option value="">Select size in pounds</option>
+                            <option value="1">1 Pound</option>
+                            <option value="2">2 Pounds</option>
+                            <option value="3">3 Pounds</option>
+                            <option value="4">4 Pounds</option>
+                            <option value="5">5 Pounds</option>
                         </select>
                     </div>
                     <div>
                         <label class="block text-gray-700 mb-1 md:mb-2" for="quantity">Quantity</label>
-                        <input type="number" id="quantity" name="quantity" min="1" value="1" required
+                        <select id="quantity" name="quantity" required
                             class="form-input w-full px-3 md:px-4 py-2 border rounded-lg focus:outline-none text-base">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
                     </div>
                     <div class="text-lg font-bold text-pink-700">Final Price: <span id="finalPrice">0</span> BDT</div>
                 </div>
@@ -176,6 +311,20 @@
         </div>
     </div>
 
+    <!-- Success Popup -->
+    <div id="successPopup" class="success-popup" style="display: none;">
+        <h3>
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            Order Placed Successfully!
+        </h3>
+        <div class="order-details" id="successOrderDetails">
+            <!-- Order details will be populated here -->
+        </div>
+        <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.9;">Thank you for choosing Cake Delights!</p>
+    </div>
+
     <!-- Footer -->
     <footer class="bg-pink-800 text-white py-6 md:py-8 mt-8 md:mt-12">
         <div class="container mx-auto text-center px-4">
@@ -192,41 +341,44 @@
             mobileMenu.classList.toggle('hidden');
         });
 
-        // Load cake flavors from localStorage
+        // Load cake flavors from Firebase
         function loadCakeFlavors() {
             const flavorSelect = document.getElementById('flavor');
-            const cakes = JSON.parse(localStorage.getItem('cakeVariants') || '[]');
+            const cakesRef = database.ref('cakes');
             
-            // Clear existing options except the first one
-            while (flavorSelect.options.length > 1) {
-                flavorSelect.remove(1);
-            }
-            
-            // Add cake options from localStorage
-            cakes.forEach(cake => {
-                const option = document.createElement('option');
-                option.value = cake.name;
-                option.textContent = cake.name;
-                flavorSelect.appendChild(option);
-            });
-
-            // Check for cake parameter in URL
-            const urlParams = new URLSearchParams(window.location.search);
-            const cakeParam = urlParams.get('cake');
-            
-            if (cakeParam) {
-                const cakeName = cakeParam.split('-').map(word => 
-                    word.charAt(0).toUpperCase() + word.slice(1)
-                ).join(' ');
+            cakesRef.on('value', (snapshot) => {
+                // Clear existing options except the first one
+                while (flavorSelect.options.length > 1) {
+                    flavorSelect.remove(1);
+                }
                 
-                // Find the matching cake in the dropdown
-                for (let i = 0; i < flavorSelect.options.length; i++) {
-                    if (flavorSelect.options[i].value.toLowerCase() === cakeName.toLowerCase()) {
-                        flavorSelect.selectedIndex = i;
-                        break;
+                // Add cake options from Firebase
+                snapshot.forEach((childSnapshot) => {
+                    const cake = childSnapshot.val();
+                    const option = document.createElement('option');
+                    option.value = cake.name;
+                    option.textContent = cake.name;
+                    flavorSelect.appendChild(option);
+                });
+
+                // Check for cake parameter in URL
+                const urlParams = new URLSearchParams(window.location.search);
+                const cakeParam = urlParams.get('cake');
+                
+                if (cakeParam) {
+                    const cakeName = cakeParam.split('-').map(word => 
+                        word.charAt(0).toUpperCase() + word.slice(1)
+                    ).join(' ');
+                    
+                    // Find the matching cake in the dropdown
+                    for (let i = 0; i < flavorSelect.options.length; i++) {
+                        if (flavorSelect.options[i].value.toLowerCase() === cakeName.toLowerCase()) {
+                            flavorSelect.selectedIndex = i;
+                            break;
+                        }
                     }
                 }
-            }
+            });
         }
 
         // Load cake flavors when the page loads
@@ -236,7 +388,7 @@
         const cakes = JSON.parse(localStorage.getItem('cakeVariants') || '[]');
         const flavorSelect = document.getElementById('flavor');
         const sizeSelect = document.getElementById('size');
-        const quantityInput = document.getElementById('quantity');
+        const quantitySelect = document.getElementById('quantity');
         const cakePreview = document.getElementById('cakePreview');
         const cakePreviewImg = document.getElementById('cakePreviewImg');
         const cakePreviewName = document.getElementById('cakePreviewName');
@@ -246,38 +398,40 @@
 
         function updateCakePreview() {
             const selectedFlavor = flavorSelect.value;
-            const cake = cakes.find(c => c.name === selectedFlavor);
-            if (cake) {
-                cakePreview.classList.remove('hidden');
-                cakePreviewImg.src = cake.image;
-                cakePreviewName.textContent = cake.name;
-                cakePreviewDesc.textContent = cake.description;
-                cakePreviewPrices.innerHTML = `
-                    <div>Small: <span class="font-bold">${cake.prices.small} BDT</span></div>
-                    <div>Medium: <span class="font-bold">${cake.prices.medium} BDT</span></div>
-                    <div>Large: <span class="font-bold">${cake.prices.large} BDT</span></div>
-                `;
-            } else {
-                cakePreview.classList.add('hidden');
-            }
-            updateFinalPrice();
+            const cakesRef = database.ref('cakes');
+            
+            cakesRef.orderByChild('name').equalTo(selectedFlavor).once('value', (snapshot) => {
+                const cake = snapshot.val() ? Object.values(snapshot.val())[0] : null;
+                if (cake) {
+                    cakePreview.classList.remove('hidden');
+                    cakePreviewImg.src = cake.image;
+                    cakePreviewName.textContent = cake.name;
+                    cakePreviewDesc.textContent = cake.description;
+                    cakePreviewPrices.innerHTML = `
+                        <div>Price per Pound: <span class="font-bold">${cake.pricePerPound} BDT</span></div>
+                    `;
+                } else {
+                    cakePreview.classList.add('hidden');
+                }
+                updateFinalPrice();
+            });
         }
 
         function updateFinalPrice() {
             const selectedFlavor = flavorSelect.value;
-            const selectedSize = sizeSelect.value;
-            const quantity = parseInt(quantityInput.value) || 1;
+            const selectedPounds = parseInt(sizeSelect.value) || 0;
+            const quantity = parseInt(quantitySelect.value) || 1;
             const cake = cakes.find(c => c.name === selectedFlavor);
             let price = 0;
-            if (cake && selectedSize && cake.prices[selectedSize]) {
-                price = parseInt(cake.prices[selectedSize]) * quantity;
+            if (cake && selectedPounds > 0) {
+                price = parseInt(cake.pricePerPound) * selectedPounds * quantity;
             }
             finalPriceSpan.textContent = price;
         }
 
         flavorSelect.addEventListener('change', updateCakePreview);
         sizeSelect.addEventListener('change', updateFinalPrice);
-        quantityInput.addEventListener('input', updateFinalPrice);
+        quantitySelect.addEventListener('change', updateFinalPrice);
 
         // Populate flavor dropdown
         function populateFlavors() {
@@ -292,6 +446,30 @@
         populateFlavors();
         // --- End Cake Preview and Price Calculation ---
 
+        // Function to show success popup
+        function showSuccessPopup(orderData, price) {
+            const successPopup = document.getElementById('successPopup');
+            const successOrderDetails = document.getElementById('successOrderDetails');
+            
+            successOrderDetails.innerHTML = `
+                <p><strong>Name:</strong> ${orderData.name}</p>
+                <p><strong>Phone:</strong> +880${orderData.phone}</p>
+                <p><strong>Address:</strong> ${orderData.address}</p>
+                <p><strong>Cake:</strong> ${orderData.flavor}</p>
+                <p><strong>Size:</strong> ${orderData.pounds} Pounds</p>
+                <p><strong>Quantity:</strong> ${orderData.quantity}</p>
+                <p><strong>Total Price:</strong> ${price} BDT</p>
+                ${orderData.message ? `<p><strong>Special Message:</strong> ${orderData.message}</p>` : ''}
+            `;
+            
+            successPopup.style.display = 'block';
+            
+            // Hide popup after 2 seconds
+            setTimeout(() => {
+                successPopup.style.display = 'none';
+            }, 2000);
+        }
+
         // Form submission handler
         document.getElementById('orderForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -302,54 +480,56 @@
                 phone: formData.get('phone'),
                 address: formData.get('address'),
                 flavor: formData.get('flavor'),
-                size: formData.get('size'),
+                pounds: formData.get('size'),
                 quantity: formData.get('quantity'),
                 message: formData.get('message'),
                 status: 'pending',
                 date: new Date().toISOString()
             };
-            const cake = cakes.find(c => c.name === orderData.flavor);
-            let price = 0;
-            if (cake && orderData.size && cake.prices[orderData.size]) {
-                price = parseInt(cake.prices[orderData.size]) * parseInt(orderData.quantity);
-            }
 
-            // Update the order details in the modal
-            document.getElementById('orderDetails').innerHTML = `
-                <p><strong>Name:</strong> ${orderData.name}</p>
-                <p><strong>Phone:</strong> ${orderData.phone}</p>
-                <p><strong>Delivery Address:</strong> ${orderData.address}</p>
-                <p><strong>Cake:</strong> ${cake ? cake.name : ''}</p>
-                <p><strong>Size:</strong> ${orderData.size}</p>
-                <p><strong>Quantity:</strong> ${orderData.quantity}</p>
-                <p><strong>Final Price:</strong> ${price} BDT</p>
-                <p><strong>Special Message:</strong> ${orderData.message || 'None'}</p>
-            `;
+            // Get cake price from Firebase
+            const cakesRef = database.ref('cakes');
+            cakesRef.orderByChild('name').equalTo(orderData.flavor).once('value', (snapshot) => {
+                const cake = snapshot.val() ? Object.values(snapshot.val())[0] : null;
+                let price = 0;
+                if (cake && orderData.pounds) {
+                    price = parseInt(cake.pricePerPound) * parseInt(orderData.pounds) * parseInt(orderData.quantity);
+                }
 
-            // Show the confirmation modal
-            document.getElementById('confirmationModal').classList.remove('hidden');
+                // Show success popup immediately
+                showSuccessPopup(orderData, price);
 
-            // Save order for user
-            const orders = JSON.parse(localStorage.getItem('orders') || '[]');
-            orders.push({...orderData, price});
-            localStorage.setItem('orders', JSON.stringify(orders));
+                // Update the order details in the modal
+                document.getElementById('orderDetails').innerHTML = `
+                    <p><strong>Name:</strong> ${orderData.name}</p>
+                    <p><strong>Phone:</strong> ${orderData.phone}</p>
+                    <p><strong>Delivery Address:</strong> ${orderData.address}</p>
+                    <p><strong>Cake:</strong> ${cake ? cake.name : ''}</p>
+                    <p><strong>Size:</strong> ${orderData.pounds} Pounds</p>
+                    <p><strong>Quantity:</strong> ${orderData.quantity}</p>
+                    <p><strong>Price per Pound:</strong> ${cake ? cake.pricePerPound : 0} BDT</p>
+                    <p><strong>Final Price:</strong> ${price} BDT</p>
+                    <p><strong>Special Message:</strong> ${orderData.message || 'None'}</p>
+                `;
 
-            // Save order for admin (recent orders)
-            const adminOrders = JSON.parse(localStorage.getItem('cakeOrders') || '[]');
-            adminOrders.push({
-                id: Date.now(),
-                name: orderData.name,
-                phone: orderData.phone,
-                address: orderData.address,
-                flavor: orderData.flavor,
-                size: orderData.size,
-                quantity: orderData.quantity,
-                message: orderData.message,
-                status: 'pending',
-                date: orderData.date,
-                price: price
+                // Show the confirmation modal
+                document.getElementById('confirmationModal').classList.remove('hidden');
+
+                // Save order to Firebase
+                const ordersRef = database.ref('orders');
+                const newOrderRef = ordersRef.push();
+                newOrderRef.set({
+                    ...orderData,
+                    totalPrice: price
+                });
+
+                // Reset the form after a short delay
+                setTimeout(() => {
+                    this.reset();
+                    cakePreview.classList.add('hidden');
+                    finalPriceSpan.textContent = '0';
+                }, 2100);
             });
-            localStorage.setItem('cakeOrders', JSON.stringify(adminOrders));
         });
 
         // Close modal when clicking the close button
@@ -359,33 +539,8 @@
 
         // Close modal when clicking the confirm button
         document.getElementById('confirmButton').addEventListener('click', function() {
-            const formData = new FormData(document.getElementById('orderForm'));
-            const orderData = {
-                id: Date.now().toString(),
-                name: formData.get('name'),
-                email: formData.get('email'),
-                phone: formData.get('phone'),
-                address: formData.get('address'),
-                flavor: formData.get('flavor'),
-                size: formData.get('size'),
-                message: formData.get('message'),
-                status: 'pending',
-                date: new Date().toISOString()
-            };
-
-            // Get existing orders or initialize empty array
-            const orders = JSON.parse(localStorage.getItem('orders') || '[]');
-            orders.push(orderData);
-            localStorage.setItem('orders', JSON.stringify(orders));
-
             // Close the modal
             document.getElementById('confirmationModal').classList.add('hidden');
-            
-            // Reset the form
-            document.getElementById('orderForm').reset();
-            
-            // Show success message
-            alert('Order placed successfully!');
         });
     </script>
 </body>

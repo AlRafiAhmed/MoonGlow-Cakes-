@@ -5,6 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MoonGlow Cakes  - Home</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-storage-compat.js"></script>
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            databaseURL: "YOUR_DATABASE_URL",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        
+        // Get database reference
+        const database = firebase.database();
+        const auth = firebase.auth();
+        const storage = firebase.storage();
+    </script>
     <style>
         .cake-card:hover {
             transform: translateY(-5px);
@@ -23,114 +48,134 @@
             .mobile-menu.active {
                 display: block;
             }
+            /* Mobile Responsive Styles */
+            .brand-name {
+                font-size: 1.5rem !important;
+            }
+            .nav-link {
+                font-size: 1rem !important;
+                padding: 0.4rem 0.8rem !important;
+            }
+            .mobile-nav-link {
+                font-size: 1rem !important;
+                padding: 0.6rem 0.8rem !important;
+            }
+            .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            h2 {
+                font-size: 1.5rem !important;
+            }
+            p {
+                font-size: 0.9rem !important;
+            }
+            .cake-card {
+                margin-bottom: 1rem;
+            }
+            .cake-card img {
+                height: 36px !important;
+            }
+            .cake-card h3 {
+                font-size: 1.1rem !important;
+            }
+            .cake-card p {
+                font-size: 0.85rem !important;
+            }
+            .cake-card button {
+                font-size: 0.9rem !important;
+                padding: 0.5rem !important;
+            }
+        }
+        /* New Navigation Styles */
+        .nav-link {
+            position: relative;
+            font-size: 1.25rem;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s ease;
+            border-radius: 0.5rem;
+        }
+        .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background-color: white;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+        .nav-link:hover::after {
+            width: 80%;
+        }
+        .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .nav-link.active::after {
+            width: 80%;
+        }
+        .nav-container {
+            background: linear-gradient(135deg, #ec4899 0%, #be185d 100%);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .brand-name {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #ffffff, #f3f4f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .mobile-nav-link {
+            font-size: 1.25rem;
+            font-weight: 600;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s ease;
+            border-radius: 0.5rem;
+            display: block;
+            text-align: center;
+        }
+        .mobile-nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateX(5px);
         }
     </style>
 </head>
 <body class="bg-gray-100">
     <!-- Navigation -->
-    <nav class="bg-pink-600 text-white p-4">
+    <nav class="nav-container text-white p-4">
         <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-bold">MoonGlow Cakes  </h1>
+            <h1 class="brand-name">MoonGlow Cakes</h1>
             <!-- Mobile Menu Button -->
-            <button id="mobileMenuBtn" class="mobile-menu md:hidden">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <button id="mobileMenuBtn" class="mobile-menu md:hidden p-2 rounded-lg hover:bg-pink-700 transition-colors duration-300">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                 </svg>
             </button>
             <!-- Desktop Menu -->
-            <div class="desktop-menu space-x-4">
-                <a href="index.html" class="hover:text-pink-200">Home</a>
-                <a href="menu.html" class="hover:text-pink-200">Menu</a>
-                <a href="admin.html" class="hover:text-pink-200">Admin</a>
+            <div class="desktop-menu space-x-6">
+                <a href="index.html" class="nav-link active">Home</a>
+                <a href="menu.html" class="nav-link">Menu</a>
+                <a href="admin.html" class="nav-link">Admin</a>
             </div>
         </div>
         <!-- Mobile Menu -->
         <div id="mobileMenu" class="mobile-menu hidden md:hidden mt-4">
             <div class="flex flex-col space-y-2">
-                <a href="index.html" class="hover:text-pink-200 py-2">Home</a>
-                <a href="menu.html" class="hover:text-pink-200 py-2">Menu</a>
-                <a href="admin.html" class="hover:text-pink-200 py-2">Admin</a>
+                <a href="index.html" class="mobile-nav-link">Home</a>
+                <a href="menu.html" class="mobile-nav-link">Menu</a>
+                <a href="admin.html" class="mobile-nav-link">Admin</a>
             </div>
         </div>
     </nav>
     <!-- Filter Navbar -->
-    <nav class="bg-white p-4 shadow-sm">
-        <div class="container mx-auto">
-            <div class="flex flex-col md:flex-row">
-                <!-- Left side filters -->
-                <div class="w-full md:w-1/2 space-y-4 md:pr-4">
-                    <select class="form-select block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm transition-all duration-300 hover:border-pink-400">
-                        <option value="">Select Flavor</option>
-                        <option value="chocolate">Chocolate</option>
-                        <option value="vanilla">Vanilla</option>
-                        <option value="strawberry">Strawberry</option>
-                        <option value="redvelvet">Red Velvet</option>
-                        <option value="caramel">Caramel</option>
-                    </select>
-                    <select class="form-select block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm transition-all duration-300 hover:border-pink-400">
-                        <option value="">Select Size</option>
-                        <option value="small">Small</option>
-                        <option value="medium">Medium</option>
-                        <option value="large">Large</option>
-                        <option value="xlarge">Extra Large</option>
-                    </select>
-                    <select class="form-select block w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm transition-all duration-300 hover:border-pink-400">
-                        <option value="">Occasion</option>
-                        <option value="birthday">Birthday</option>
-                        <option value="wedding">Wedding</option>
-                        <option value="anniversary">Anniversary</option>
-                        <option value="celebration">Celebration</option>
-                    </select>
-                </div>
-                
-                <!-- Right side filters -->
-                <div class="w-full md:w-1/2 mt-4 md:mt-0 md:pl-4">
-                    <div class="flex flex-col space-y-4">
-                        <!-- Dietary options -->
-                        <div class="flex flex-wrap gap-2">
-                            <span class="text-sm font-medium text-gray-700">Dietary Options:</span>
-                            <label class="inline-flex items-center">
-                                <input type="checkbox" class="form-checkbox text-pink-600 rounded">
-                                <span class="ml-2 text-sm text-gray-700">Gluten-Free</span>
-                            </label>
-                            <label class="inline-flex items-center">
-                                <input type="checkbox" class="form-checkbox text-pink-600 rounded">
-                                <span class="ml-2 text-sm text-gray-700">Vegan</span>
-                            </label>
-                            <label class="inline-flex items-center">
-                                <input type="checkbox" class="form-checkbox text-pink-600 rounded">
-                                <span class="ml-2 text-sm text-gray-700">Sugar-Free</span>
-                            </label>
-                        </div>
-                        
-                        <!-- Price range in compact form -->
-                        <div class="bg-gray-50 p-2 rounded-md border border-gray-200 w-full md:w-2/3">
-                            <div class="flex items-center justify-between mb-1">
-                                <label for="priceRange" class="text-xs font-medium text-gray-700">Price: <span id="priceValue" class="text-pink-600 font-semibold">300</span> BDT</label>
-                                <div class="text-xs text-gray-500">
-                                    <span>300-5000</span>
-                                </div>
-                            </div>
-                            <input 
-                                type="range" 
-                                id="priceRange" 
-                                min="300" 
-                                max="5000" 
-                                step="100" 
-                                value="300" 
-                                class="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-pink-600"
-                            >
-                        </div>
-                        
-                        <!-- Search button -->
-                        <button class="bg-pink-600 text-white py-2 px-4 rounded-md hover:bg-pink-700 transition-colors duration-300 shadow-sm hover:shadow-md w-full md:w-auto md:self-end">
-                            Search Cakes
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </nav>
+  
     <script>
         // Update price display when slider changes
         document.getElementById('priceRange').addEventListener('input', function() {
@@ -184,27 +229,22 @@
             const featuredCakesContainer = document.getElementById('featuredCakes');
             const cakes = JSON.parse(localStorage.getItem('cakeVariants') || '[]');
             
-            // Filter cakes that are marked as featured or both
-            const featuredCakes = cakes.filter(cake => 
-                cake.category === 'featured' || cake.category === 'both'
-            );
-
-            if (featuredCakes.length === 0) {
+            if (cakes.length === 0) {
                 featuredCakesContainer.innerHTML = `
                     <div class="col-span-full text-center text-gray-500 py-8">
-                        No featured cakes available
+                        No cakes available
                     </div>
                 `;
                 return;
             }
 
-            featuredCakesContainer.innerHTML = featuredCakes.map(cake => `
+            featuredCakesContainer.innerHTML = cakes.map(cake => `
                 <div class="bg-white rounded-lg shadow-lg overflow-hidden cake-card">
                     <img src="${cake.image}" alt="${cake.name}" class="w-full h-48 object-cover">
                     <div class="p-4 md:p-6">
                         <h3 class="text-lg md:text-xl font-bold mb-2">${cake.name}</h3>
                         <p class="text-gray-600 mb-4">${cake.description}</p>
-                        <p class="text-pink-600 font-bold mb-4">From ${cake.prices.small} BDT</p>
+                        <p class="text-pink-600 font-bold mb-4">Price per Pound: ${cake.pricePerPound} BDT</p>
                         <button onclick="window.location.href='order.html?cake=${cake.name.toLowerCase().replace(/\s+/g, '-')}'" 
                             class="w-full bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700 transition duration-300">
                             Order Now
