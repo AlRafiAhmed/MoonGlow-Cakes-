@@ -38,6 +38,18 @@
         .mobile-menu {
             display: none;
         }
+        .review-card {
+            transition: transform 0.3s ease;
+        }
+        .review-card:hover {
+            transform: translateY(-3px);
+        }
+        .gallery-image {
+            transition: transform 0.3s ease;
+        }
+        .gallery-image:hover {
+            transform: scale(1.05);
+        }
         @media (max-width: 768px) {
             .mobile-menu {
                 display: block;
@@ -200,11 +212,130 @@
         </div>
     </div>
 
+    <!-- Beautiful Cake Gallery -->
+    <div class="container mx-auto py-8 md:py-16 px-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-center mb-8 md:mb-12 text-pink-800">Our Beautiful Cake Gallery</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            <div class="relative overflow-hidden rounded-lg shadow-lg gallery-image">
+                <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400" alt="Chocolate Birthday Cake" class="w-full h-64 object-cover">
+                <div class="absolute inset-0 bg-black bg-opacity-40 flex items-end p-4">
+                    <div class="text-white">
+                        <h3 class="font-bold text-lg">Chocolate Birthday Cake</h3>
+                        <p class="text-sm">Rich chocolate layers with smooth buttercream</p>
+                    </div>
+                </div>
+            </div>
+            <div class="relative overflow-hidden rounded-lg shadow-lg gallery-image">
+                <img src="https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62?w=400" alt="Strawberry Delight" class="w-full h-64 object-cover">
+                <div class="absolute inset-0 bg-black bg-opacity-40 flex items-end p-4">
+                    <div class="text-white">
+                        <h3 class="font-bold text-lg">Strawberry Delight</h3>
+                        <p class="text-sm">Fresh strawberries with vanilla cream</p>
+                    </div>
+                </div>
+            </div>
+            <div class="relative overflow-hidden rounded-lg shadow-lg gallery-image">
+                <img src="https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=400" alt="Wedding Elegance" class="w-full h-64 object-cover">
+                <div class="absolute inset-0 bg-black bg-opacity-40 flex items-end p-4">
+                    <div class="text-white">
+                        <h3 class="font-bold text-lg">Wedding Elegance</h3>
+                        <p class="text-sm">Multi-tiered wedding cake with floral decorations</p>
+                    </div>
+                </div>
+            </div>
+            <div class="relative overflow-hidden rounded-lg shadow-lg gallery-image">
+                <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=400" alt="Red Velvet Special" class="w-full h-64 object-cover">
+                <div class="absolute inset-0 bg-black bg-opacity-40 flex items-end p-4">
+                    <div class="text-white">
+                        <h3 class="font-bold text-lg">Red Velvet Special</h3>
+                        <p class="text-sm">Classic red velvet with cream cheese frosting</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Featured Cakes -->
     <div class="container mx-auto py-8 md:py-16 px-4">
         <h2 class="text-2xl md:text-3xl font-bold text-center mb-8 md:mb-12">Featured Cakes</h2>
         <div id="featuredCakes" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
             <!-- Cake cards will be dynamically added here -->
+        </div>
+    </div>
+
+    <!-- Customer Reviews -->
+    <div class="bg-gradient-to-r from-pink-50 to-pink-100 py-8 md:py-16">
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-8 md:mb-12 text-pink-800">What Our Customers Say</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+                <div class="bg-white rounded-lg shadow-lg p-6 review-card">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-pink-500 rounded-full flex items-center justify-center text-white font-bold">S</div>
+                        <div class="ml-4">
+                            <h4 class="font-bold text-gray-800">Sarah Ahmed</h4>
+                            <div class="flex text-yellow-400">
+                                ★★★★★
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 italic">"Absolutely amazing! The chocolate cake was so moist and delicious. MoonGlow Cakes made my daughter's birthday extra special. Will definitely order again!"</p>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-lg p-6 review-card">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-pink-500 rounded-full flex items-center justify-center text-white font-bold">R</div>
+                        <div class="ml-4">
+                            <h4 class="font-bold text-gray-800">Rafiq Hassan</h4>
+                            <div class="flex text-yellow-400">
+                                ★★★★★
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 italic">"The wedding cake was a masterpiece! Beautiful design and incredible taste. All our guests were asking about where we got it from. Highly recommended!"</p>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-lg p-6 review-card">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-pink-500 rounded-full flex items-center justify-center text-white font-bold">A</div>
+                        <div class="ml-4">
+                            <h4 class="font-bold text-gray-800">Aysha Khan</h4>
+                            <div class="flex text-yellow-400">
+                                ★★★★★
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 italic">"Fresh, delicious, and beautifully decorated! The strawberry cake was perfect for our anniversary. Great service and timely delivery. Five stars!"</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <div class="container mx-auto py-8 md:py-16 px-4">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
+            <div>
+                <h2 class="text-2xl md:text-3xl font-bold mb-6 text-pink-800">About MoonGlow Cakes</h2>
+                <p class="text-gray-600 mb-4 leading-relaxed">
+                    At MoonGlow Cakes, we believe every celebration deserves a perfect cake. Since our founding, we've been crafting delicious, beautiful cakes that bring joy to special moments.
+                </p>
+                <p class="text-gray-600 mb-4 leading-relaxed">
+                    Our skilled bakers use only the finest ingredients to create cakes that not only look stunning but taste absolutely divine. From birthday celebrations to weddings, we make every occasion memorable.
+                </p>
+                <div class="grid grid-cols-2 gap-4 mt-6">
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-pink-600">500+</div>
+                        <div class="text-gray-600">Happy Customers</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-pink-600">1000+</div>
+                        <div class="text-gray-600">Cakes Delivered</div>
+                    </div>
+                </div>
+            </div>
+            <div class="relative">
+                <img src="https://images.unsplash.com/photo-1486427944299-d1955d23e34d?w=600" alt="Baker decorating cake" class="rounded-lg shadow-lg w-full h-80 object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-pink-900/20 to-transparent rounded-lg"></div>
+            </div>
         </div>
     </div>
 
