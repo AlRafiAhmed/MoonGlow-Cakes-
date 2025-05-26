@@ -5,6 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cake Delights - Order</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDGpAHia_wEmrhnmYjrPf1n1TrAzwEMiAI",
+            authDomain: "cake-shop-dd81e.firebaseapp.com",
+            databaseURL: "https://cake-shop-dd81e-default-rtdb.firebaseio.com",
+            projectId: "cake-shop-dd81e",
+            storageBucket: "cake-shop-dd81e.appspot.com",
+            messagingSenderId: "581632635532",
+            appId: "1:581632635532:web:bb6acd909ea7d2de7cac55"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+    </script>
     <style>
         .form-input:focus {
             border-color: #db2777;
@@ -223,7 +239,7 @@
                     <div>
                         <label class="block text-gray-700 mb-1 md:mb-2" for="flavor">Cake Flavor</label>
                         <select id="flavor" name="flavor" required
-                            class="form-input w-full px-3 md:px-4 py-2 border rounded-lg focus:outline-none text-base">
+                            class="form-input w-full px-3 md:px-4 py-2 border rounded-lg focus:outline-none focus:border-pink-500 text-base">
                             <option value="">Select a flavor</option>
                         </select>
                     </div>
@@ -242,7 +258,7 @@
                     <div>
                         <label class="block text-gray-700 mb-1 md:mb-2" for="quantity">Quantity</label>
                         <select id="quantity" name="quantity" required
-                            class="form-input w-full px-3 md:px-4 py-2 border rounded-lg focus:outline-none text-base">
+                            class="form-input w-full px-3 md:px-4 py-2 border rounded-lg focus:outline-none focus:border-pink-500 text-base">
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -258,14 +274,14 @@
                     <div>
                         <label class="block text-gray-700 mb-1 md:mb-2" for="name">Full Name</label>
                         <input type="text" id="name" name="name" required
-                            class="form-input w-full px-3 md:px-4 py-2 border rounded-lg focus:outline-none text-base">
+                            class="form-input w-full px-3 md:px-4 py-2 border rounded-lg focus:outline-none focus:border-pink-500 text-base">
                     </div>
                     <div>
                         <label class="block text-gray-700 mb-1 md:mb-2" for="phone">Phone Number</label>
                         <div class="flex items-center">
                             <span class="bg-gray-200 px-3 py-2 rounded-l-lg border border-r-0">+880</span>
                             <input type="tel" id="phone" name="phone" required pattern="[0-9]{10,}" 
-                                class="form-input w-full px-3 md:px-4 py-2 border rounded-r-lg focus:outline-none text-base"
+                                class="form-input w-full px-3 md:px-4 py-2 border rounded-r-lg focus:outline-none focus:border-pink-500 text-base"
                                 placeholder="Enter at least 10 digits" oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                                 minlength="10">
                         </div>
@@ -273,12 +289,12 @@
                     <div>
                         <label class="block text-gray-700 mb-1 md:mb-2" for="address">Delivery Address</label>
                         <textarea id="address" name="address" required rows="3"
-                            class="form-input w-full px-3 md:px-4 py-2 border rounded-lg focus:outline-none text-base"></textarea>
+                            class="form-input w-full px-3 md:px-4 py-2 border rounded-lg focus:outline-none focus:border-pink-500 text-base"></textarea>
                     </div>
                     <div>
                         <label class="block text-gray-700 mb-1 md:mb-2" for="message">Additional Description (Optional)</label>
                         <textarea id="message" name="message" rows="2"
-                            class="form-input w-full px-3 md:px-4 py-2 border rounded-lg focus:outline-none text-base"
+                            class="form-input w-full px-3 md:px-4 py-2 border rounded-lg focus:outline-none focus:border-pink-500 text-base"
                             placeholder="Any special instructions or message on the cake"></textarea>
                     </div>
                 </div>
@@ -341,23 +357,36 @@
             mobileMenu.classList.toggle('hidden');
         });
 
+        // Global variables to store cake data
+        let availableCakes = [];
+
         // Load cake flavors from Firebase
         function loadCakeFlavors() {
             const flavorSelect = document.getElementById('flavor');
             const cakesRef = database.ref('cakes');
             
-            cakesRef.on('value', (snapshot) => {
+            cakesRef.once('value', (snapshot) => {
                 // Clear existing options except the first one
-                while (flavorSelect.options.length > 1) {
-                    flavorSelect.remove(1);
-                }
+                flavorSelect.innerHTML = '<option value="">Select a flavor</option>';
+                
+                // Clear the availableCakes array
+                availableCakes = [];
                 
                 // Add cake options from Firebase
                 snapshot.forEach((childSnapshot) => {
                     const cake = childSnapshot.val();
+                    const cakeId = childSnapshot.key;
+                    
+                    // Store cake data with ID
+                    availableCakes.push({
+                        id: cakeId,
+                        ...cake
+                    });
+                    
                     const option = document.createElement('option');
-                    option.value = cake.name;
+                    option.value = cakeId; // Use Firebase key as value
                     option.textContent = cake.name;
+                    option.setAttribute('data-cake-id', cakeId);
                     flavorSelect.appendChild(option);
                 });
 
@@ -372,20 +401,43 @@
                     
                     // Find the matching cake in the dropdown
                     for (let i = 0; i < flavorSelect.options.length; i++) {
-                        if (flavorSelect.options[i].value.toLowerCase() === cakeName.toLowerCase()) {
+                        const option = flavorSelect.options[i];
+                        const cakeId = option.getAttribute('data-cake-id');
+                        const cake = availableCakes.find(c => c.id === cakeId);
+                        
+                        if (cake && cake.name.toLowerCase() === cakeName.toLowerCase()) {
                             flavorSelect.selectedIndex = i;
+                            updateCakePreview(); // Update preview when pre-selected
                             break;
                         }
                     }
                 }
+            }).catch((error) => {
+                console.error('Error loading cake flavors:', error);
+                // Add fallback options if Firebase fails
+                const fallbackCakes = [
+                    { id: 'chocolate', name: 'Chocolate Cake', pricePerPound: 500 },
+                    { id: 'vanilla', name: 'Vanilla Cake', pricePerPound: 450 },
+                    { id: 'strawberry', name: 'Strawberry Cake', pricePerPound: 550 }
+                ];
+                
+                fallbackCakes.forEach(cake => {
+                    availableCakes.push(cake);
+                    const option = document.createElement('option');
+                    option.value = cake.id;
+                    option.textContent = cake.name;
+                    option.setAttribute('data-cake-id', cake.id);
+                    flavorSelect.appendChild(option);
+                });
             });
         }
 
         // Load cake flavors when the page loads
-        loadCakeFlavors();
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCakeFlavors();
+        });
 
         // --- Cake Preview and Price Calculation ---
-        const cakes = JSON.parse(localStorage.getItem('cakeVariants') || '[]');
         const flavorSelect = document.getElementById('flavor');
         const sizeSelect = document.getElementById('size');
         const quantitySelect = document.getElementById('quantity');
@@ -397,34 +449,32 @@
         const finalPriceSpan = document.getElementById('finalPrice');
 
         function updateCakePreview() {
-            const selectedFlavor = flavorSelect.value;
-            const cakesRef = database.ref('cakes');
+            const selectedCakeId = flavorSelect.value;
+            const selectedCake = availableCakes.find(cake => cake.id === selectedCakeId);
             
-            cakesRef.orderByChild('name').equalTo(selectedFlavor).once('value', (snapshot) => {
-                const cake = snapshot.val() ? Object.values(snapshot.val())[0] : null;
-                if (cake) {
-                    cakePreview.classList.remove('hidden');
-                    cakePreviewImg.src = cake.image;
-                    cakePreviewName.textContent = cake.name;
-                    cakePreviewDesc.textContent = cake.description;
-                    cakePreviewPrices.innerHTML = `
-                        <div>Price per Pound: <span class="font-bold">${cake.pricePerPound} BDT</span></div>
-                    `;
-                } else {
-                    cakePreview.classList.add('hidden');
-                }
-                updateFinalPrice();
-            });
+            if (selectedCake) {
+                cakePreview.classList.remove('hidden');
+                cakePreviewImg.src = selectedCake.image || '';
+                cakePreviewName.textContent = selectedCake.name || '';
+                cakePreviewDesc.textContent = selectedCake.description || '';
+                cakePreviewPrices.innerHTML = `
+                    <div>Price per Pound: <span class="font-bold">${selectedCake.pricePerPound || 0} BDT</span></div>
+                `;
+            } else {
+                cakePreview.classList.add('hidden');
+            }
+            updateFinalPrice();
         }
 
         function updateFinalPrice() {
-            const selectedFlavor = flavorSelect.value;
+            const selectedCakeId = flavorSelect.value;
             const selectedPounds = parseInt(sizeSelect.value) || 0;
             const quantity = parseInt(quantitySelect.value) || 1;
-            const cake = cakes.find(c => c.name === selectedFlavor);
+            const selectedCake = availableCakes.find(cake => cake.id === selectedCakeId);
+            
             let price = 0;
-            if (cake && selectedPounds > 0) {
-                price = parseInt(cake.pricePerPound) * selectedPounds * quantity;
+            if (selectedCake && selectedPounds > 0) {
+                price = parseInt(selectedCake.pricePerPound || 0) * selectedPounds * quantity;
             }
             finalPriceSpan.textContent = price;
         }
@@ -432,19 +482,6 @@
         flavorSelect.addEventListener('change', updateCakePreview);
         sizeSelect.addEventListener('change', updateFinalPrice);
         quantitySelect.addEventListener('change', updateFinalPrice);
-
-        // Populate flavor dropdown
-        function populateFlavors() {
-            flavorSelect.innerHTML = '<option value="">Select a flavor</option>';
-            cakes.forEach(cake => {
-                const option = document.createElement('option');
-                option.value = cake.name;
-                option.textContent = cake.name;
-                flavorSelect.appendChild(option);
-            });
-        }
-        populateFlavors();
-        // --- End Cake Preview and Price Calculation ---
 
         // Function to show success popup
         function showSuccessPopup(orderData, price) {
@@ -455,7 +492,7 @@
                 <p><strong>Name:</strong> ${orderData.name}</p>
                 <p><strong>Phone:</strong> +880${orderData.phone}</p>
                 <p><strong>Address:</strong> ${orderData.address}</p>
-                <p><strong>Cake:</strong> ${orderData.flavor}</p>
+                <p><strong>Cake:</strong> ${orderData.cakeName}</p>
                 <p><strong>Size:</strong> ${orderData.pounds} Pounds</p>
                 <p><strong>Quantity:</strong> ${orderData.quantity}</p>
                 <p><strong>Total Price:</strong> ${price} BDT</p>
@@ -475,11 +512,20 @@
             e.preventDefault();
             
             const formData = new FormData(this);
+            const selectedCakeId = formData.get('flavor');
+            const selectedCake = availableCakes.find(cake => cake.id === selectedCakeId);
+            
+            if (!selectedCake) {
+                alert('Please select a valid cake flavor');
+                return;
+            }
+            
             const orderData = {
                 name: formData.get('name'),
                 phone: formData.get('phone'),
                 address: formData.get('address'),
-                flavor: formData.get('flavor'),
+                cakeId: selectedCakeId,
+                cakeName: selectedCake.name,
                 pounds: formData.get('size'),
                 quantity: formData.get('quantity'),
                 message: formData.get('message'),
@@ -487,60 +533,56 @@
                 date: new Date().toISOString()
             };
 
-            // Get cake price from Firebase
-            const cakesRef = database.ref('cakes');
-            cakesRef.orderByChild('name').equalTo(orderData.flavor).once('value', (snapshot) => {
-                const cake = snapshot.val() ? Object.values(snapshot.val())[0] : null;
-                let price = 0;
-                if (cake && orderData.pounds) {
-                    price = parseInt(cake.pricePerPound) * parseInt(orderData.pounds) * parseInt(orderData.quantity);
-                }
+            // Calculate price
+            let price = 0;
+            if (selectedCake && orderData.pounds) {
+                price = parseInt(selectedCake.pricePerPound || 0) * parseInt(orderData.pounds) * parseInt(orderData.quantity);
+            }
 
-                // Show success popup immediately
-                showSuccessPopup(orderData, price);
+            // Show success popup immediately
+            showSuccessPopup(orderData, price);
 
-                // Update the order details in the modal
-                document.getElementById('orderDetails').innerHTML = `
-                    <p><strong>Name:</strong> ${orderData.name}</p>
-                    <p><strong>Phone:</strong> ${orderData.phone}</p>
-                    <p><strong>Delivery Address:</strong> ${orderData.address}</p>
-                    <p><strong>Cake:</strong> ${cake ? cake.name : ''}</p>
-                    <p><strong>Size:</strong> ${orderData.pounds} Pounds</p>
-                    <p><strong>Quantity:</strong> ${orderData.quantity}</p>
-                    <p><strong>Price per Pound:</strong> ${cake ? cake.pricePerPound : 0} BDT</p>
-                    <p><strong>Final Price:</strong> ${price} BDT</p>
-                    <p><strong>Special Message:</strong> ${orderData.message || 'None'}</p>
-                `;
+            // Update the order details in the modal
+            document.getElementById('orderDetails').innerHTML = `
+                <p><strong>Name:</strong> ${orderData.name}</p>
+                <p><strong>Phone:</strong> ${orderData.phone}</p>
+                <p><strong>Delivery Address:</strong> ${orderData.address}</p>
+                <p><strong>Cake:</strong> ${selectedCake.name}</p>
+                <p><strong>Size:</strong> ${orderData.pounds} Pounds</p>
+                <p><strong>Quantity:</strong> ${orderData.quantity}</p>
+                <p><strong>Price per Pound:</strong> ${selectedCake.pricePerPound || 0} BDT</p>
+                <p><strong>Final Price:</strong> ${price} BDT</p>
+                <p><strong>Special Message:</strong> ${orderData.message || 'None'}</p>
+            `;
 
-                // Show the confirmation modal
-                document.getElementById('confirmationModal').classList.remove('hidden');
+            // Show the confirmation modal
+            document.getElementById('confirmationModal').style.display = 'block';
 
-                // Save order to Firebase
-                const ordersRef = database.ref('orders');
-                const newOrderRef = ordersRef.push();
-                newOrderRef.set({
-                    ...orderData,
-                    totalPrice: price
-                });
-
-                // Reset the form after a short delay
-                setTimeout(() => {
-                    this.reset();
-                    cakePreview.classList.add('hidden');
-                    finalPriceSpan.textContent = '0';
-                }, 2100);
+            // Save order to Firebase
+            const ordersRef = database.ref('orders');
+            const newOrderRef = ordersRef.push();
+            newOrderRef.set({
+                ...orderData,
+                totalPrice: price
             });
+
+            // Reset the form after a short delay
+            setTimeout(() => {
+                this.reset();
+                cakePreview.classList.add('hidden');
+                finalPriceSpan.textContent = '0';
+            }, 2100);
         });
 
         // Close modal when clicking the close button
         document.getElementById('closeModal').addEventListener('click', function() {
-            document.getElementById('confirmationModal').classList.add('hidden');
+            document.getElementById('confirmationModal').style.display = 'none';
         });
 
         // Close modal when clicking the confirm button
         document.getElementById('confirmButton').addEventListener('click', function() {
             // Close the modal
-            document.getElementById('confirmationModal').classList.add('hidden');
+            document.getElementById('confirmationModal').style.display = 'none';
         });
     </script>
 </body>
